@@ -1,0 +1,400 @@
+==== CODE SMELLS ====
+
+>> BLOATERS <<
+Os Bloaters correspondem a pedaços de código, métodos e classes que cresceram numa proporção tão grande que se tornaram dificeis de trabalhar. 
+Normalmente, estes smells não aparecem imediatamente, mas vão sendo acumulados ao longo da evolução do programa (especialmente quando não há um esforço para os eliminar).
+
+
+	=> Métodos Longos
+	- Sinais e sintomas
+		Um método contém demasiadas linhas de código. Geralmente, um método com mais de dez linhas de código deve ser analisado.
+	- Razões para o problema
+		Estão sempre a ser adicionadas funcionalidades a um método, mas nada é retirado. Como é mais fácil escrever código do que o ler, este smell só é notado quando o método se torna numa grande bola de lama que é difícil de ler.
+		Mentalmente, o exercício de criar um novo método é muito mais difícil de que apenas adicionar funcionalidade num método já existente. Adicionando uma ou duas linhas de código ao método de cada vez, e eventualmente transforma-se num novelo de spaghetti code.
+	- Tratamento
+		Uma regra básica é: se se sente a necessidade de comentar um pedaço de código dentro de um método, o melhor é migrar este pedaço de código para um novo método. Mesmo uma única linha de código deve ser separada para um método diferente, se esta requer uma explicação. Além disso, se um método possuir um nome descritivo, não é preciso olhar para o código para saber o que faz.
+		-> Para reduzir o tamanho de um método, usar a técnica "Extract Method"
+		-> Se as variáveis locais e parametros inteferem com a extração do método, usar "Replace Temp with Query", "Introduce Parameter Object" ou "Preserve Whole Object"
+		-> Se nenhuma das soluções anteriores funcionar, tentar mover o método para um objeto diferente via "Replace Method with Method Object"
+		-> Operadores condicionais e ciclos são uma boa pista que o código pode ser movido para um método diferente. Para condicionais, usar "Decompose Conditional". Para ciclos usar "Extract Method"
+	- Payoff
+		Entre todos os tipos de código orientado a objetos, classes com métodos curtos vivem mais. Quantos mais longo um método é, mais difícil de perceber e de manter.
+		Para mais, método longos são o lugar perfeito para esconder código duplicado
+	- Performance
+		O aumento do número de métodos afetam a performance? Em quase todos os casos, o impacto é tão negligível que nem vale a pena preocupar-se com isso. 
+		Além disso, com o código mais organizado e percetível, é mais fácil de encontrar maneiras de reestruturar o código eficientemente e obter performance quando necessário.
+
+	=> Classes Grandes
+	- Sinais e Sintomas
+		Uma classe contém muitos parâmetros/métodos/linhas de código.
+	- Razões para o problema
+		Normalmente, as classes começam como sendo pequenos, mas à medido que o programa cresce vão se tornando "inchadas".
+		Assim como no caso dos métodos longos, os programadores acham mais fácil adicionar código numa classe já existente, do que criar uma nova classe de raíz.
+	- Tratamento
+		Quando a uma classe são atribuídas várias funcionalidades, o melhor é divídi-la em várias.
+		-> "Extract Class" ajuda se parte do comportamento de uma classe grande pode ser transformado num componente separado.
+		-> "Extract Subclass" ajuda se parte do comportamento de uma classe grande pode ser implementado de maneiras diferentes ou usada em casos raros.
+		-> "Extract Interface" ajuda se é necessário existir uma lista de operações e comportamentos que um cliente pode usar.
+		-> Se uma classe grande é responsável pela interface gráfica, é melhor mudar alguns dos seus dados e comportamento para um objeto diferente. Utilizando esta técnica torna-se necessário guardar os dados em dois sítios diferentes e mantê-los consistentes. "Duplicate Observed Data" oferece uma maneira de fazer isto.
+	- Payoff
+		O refactor destas classes poupa os programadores de terem de se lembrar de todos os atributos de uma dada classe.
+		Em muitos casos, dividir classes grandes em partes evita a duplicação de código e de funcionalidades.
+
+	=> Obsessão por primitivas
+	- Sinais e Sintomas
+		O uso de primitivas em vez de objetos pequenos para tarefas simples (moedas, intervalos, ou string especiais para representar número de telemóvel, etc)
+		O uso de constantes para informação de codificação (p.e. a constante USER_ADMIN_ROLE = 1 para referir um utilizador com direitos de administrador)
+		O uso de strings constantes como campos de uso em arrays
+	- Razões para o problema
+		Como muitos dos outros smells, a obsessão por primitivas nasce num momento de fraqueza. Criar uma constante primitiva é muito mais fácil do que criar uma nova classe. 
+		As primitivas são normalmente usadas para simular tipos. Então, em vez de criar um objeto diferente, existe um intervalo de números ou strings que compôem a lista de valores permitidos para uma dada entidade. A estes valores especificos são atribuídos nomes fáceis de entender, e é por isso que é um smell tão espalhado.
+		Um outro exemplo de um uso pobre de prmitivas é a simulação de campo. Uma classe contém um array grande com dados diferentes e strings constantes, que são usados como índices do array para obter os dados.
+	- Tratamento
+		Se existe uma grande variedade de constantes primitivas, é possível agrupar algumas delas lógicamente na sua própria classe. Ou então, mover todo o comportamento associado com esses dados para uma classe diferente. Para isto, usar "Replace Data Value With Object"
+		-> Se os valores das constantes primitivas são usados como parâmetros de métodos, usar "Introduce Parameter Object" ou "Preserver Whole Object"
+		-> Quando dados complicados são codificados em varíaveis usar "Replacde Type Code with Class", "Replacde Type Code with Subclasses" ou "Replacde Type Code with State/Strategy"
+		-> Se há arrays entre as variáveis, usar "Replace Array with Object"
+	- Payoff
+		O código torna-se mais fléxivel graças ao uso de objetos em vez de primitivas.
+		Maior compreensão e organização do código. Operações em dados particulares são guardadas no mesmo sítio, em vez de estarem espalhadas. Evita-se o exercício de tentar adivinhar a razão por detrás destas contantes e o porquê de estarem num array.
+		Mais fácil de encontrar código duplicado.
+
+	=> Longa lista de parâmetros
+	- Sinais e Sintomas
+		Mais de três ou quatro parâmetros num método
+	- Razões para o problema
+		Uma longa lista de parâmtros pode aparecer após vários tipos de algoritmos serem fundidos num único método. Uma longa lista pode ter sido criada para controlar qual algoritmo irá correr e como.
+		Longas listas de parãmtros podem também resultar de tentar fazer classes mais independentes umas das outras. Por exemplo, o código para criar um objeto especifico que é preciso num método é movido do método para o código que chama o méetodo, mas os objetos criados são passados ao método como parâmtro. Assim, a classe original não sabe os relacionamentos entre os objetos, e a dependência diminui. No entanto, se muitos desses objetos forem criados, cada um deles precisa do seu próprio parâmetro, o que significa uma longa lista de parâmetros.
+		É dificil de entender listas grandes, que se tornam contraditórias e difíceis de usar à medida que crescem. Em vez de usar longas listas de parâmetros, um método pode usar os dados do seu próprio objeto. Se o objeto atual não contém todos os dados necessários, outro objeto (que terá) pode ser passado como parâmetro.
+	- Tratamento
+		Verificar que valores são passados aos parâmetros. Se alguns dos argumentos são resultados de chamar métodos de outro objeto, usar "Replace Parameter with Method Call". Este objeto pode ser colocado no campo da sua própria classe  ou passado ao método como parâmetro.
+		-> Em vez de passar um grupo de dados recebido de outro objeto como parâmtro, passar o próprio objeto ao método, usando "Preserver whole object"
+		-> Se há vários elementos de dados que não estão relacionados, é possível fundí-los num objeto via "Introduce Parameter Object"
+	- Payoff
+		-> Código mais legível e curto
+		-> Refactor pode revelar código duplicado
+	- Quando ignorar
+		Não eliminar parâmetros se resultar em dependências indesejadas entre classes
+
+	=> Aglomerados de dados
+	- Sinais e Sintomas
+		Por vezes, diferentes partes do código contêm grupos idênticos de variáveis (p.e. parâmetros para conectar a uma base de dados). Estes aglomerados de dados devem ser transformados na sua próprio classe
+	- Razões para o problema
+		Estes aglomerados surgem de má estrutura de programa ou de "copypasta programming"
+		Para ter a certeza que um conjunto de dados é ou não um aglomerado, basta apagar um dos valores, e ver se o resto faz sentido. 
+	- Tratamento
+		-> Se dados repetidos compõem as variáveis de uma classe, usar "Extract Class" para mover estes campos para a sua própria classe.
+		-> Se os mesmo aglomerados de dados são passados aos métodos como parâmetros, usar "Introduce Parameter Object" para torná-los numa classe.
+		-> Se alguns dos dados são passados a outros métodos, pode-se passar o objeto inteiro ao método, em vez de apenas alguns campos. "Preserve Whole Object" ajuda.
+		-> Ver o código usado por estas variáveis. Será boa ideia movê-lo para uma nova classe.
+	- Payoff
+		-> Aumenta a compreensibilidade e organização do código. Operações em dados particulares ficam organizadas num único sítio, em vez de estarem espalhadas ao longo do código.
+		-> Reduz o tamanho do código.
+	- Quando ignorar
+		Passar um objeto inteiro como parâmetro de um método, em vez de passar apenas os seus valores primitivos pode criar uma dependência indesejável entre duas classes.
+
+
+>> Object-Orientation Abusers <<
+Estes smells correspondem a aplicação incompletas ou incorretas de princípios de programação OO
+	=> Switch statements
+	- Sinais e sintomas 
+		Existir um statement complexo de um switch ou uma sequência de if's
+	- Razões para o problema
+		O uso raro do operador switch é uma das características de programção orientada a objetos. O código para um único switch pode estar espalhado ao longo do programa. Quando uma nova condição é adicionada,  é preciso alterar todo o código do switch.
+		Normalmente, quande se vê um switch, este está associado com polimorfismo.
+	- Tratamento
+		-> Para isolar o bloco switch e por na classe correta, usar "Extract Method" seguido de "Move Method"
+		-> Se um switch está associado no tipo do código, por exemplo quando o runtime do programa é alterado, usar "Replace Type Code with Subclasses" ou "Replace Type Code with State/Strategy"
+		-> Após especificar a estrutura de herança, usar "Replace Conditional with Polymorphism"
+		-> Se não existem muitas condições no operador, e todas chamam o mesmo método com diferentes parâmetros, poliformiso pode ser supérfluo. Se este for o caso, o método pode ser dividido em métodos mais simples com "Replace Parameter with Explicit MEthods" e mudar o switch de acordo.
+		-> Se uma das condicionais é null, usar "Introduce Null Object"
+	- Payoff
+		Melhor organização de código
+	- Quando ignorar
+		-> Quando um operador switch efetua ações simples, não há razão para mudar o código.
+		-> Muitas vezes, estes operadores são usados pelos padrões de desenho de fabricação ("Factory Method" e "Abstract Factory") para escolher qual a classe a ser criada.
+
+	=> Campos Temporários
+	- Sinais e Sintomas
+		Os campos temporários tomam valor (e são pedidos por objetos) apenas sob algumas circunstâncias. À parte disto, estão vazios.
+	- Razões para o problema
+		Muitas vezes, campos temporários são criado para uso num algoritmo que requer um conjunto largo de inputs. Então, em vez de criar um grande número de parâmetros no método, o programador decide criar campos para estes dados na classe. Estes campos são usados apenas no algoritmo e são inúteis o resto do tempo.
+		Este tipo de código é difícil de perceber. Espera-se que os dados do objeto sejam necessários, mas po alguma razão estão quase sempre vazios.
+	- Tratamento
+		Campos temporários e todo o código a usá-los pode ser posto numa classe diferente via "Extract Class". Por outras palavras, cria-se um objeto para alcançar o mesmo objetivo de usar "Replace Method with Method Object"
+		"Introduce Null Object" e integrálo no lugar da condicional que verifica estas variáveis temporárias.
+	- Payoff
+		Mais claridade e organização no código
+
+	=> Herança Recusada
+	- Sinais e Sintomas
+		Se uma subclasse usa apenas alguns dos métodos e propriedades herdadas da sua superclasse, a herança está incorreta. Os métodos não utilizados podem não ser usados ou redefinidos para lançar exceções
+	- Razões para o Problema
+		Alguém estava motivado para criar uma classe com herança apenas com o intuito de reusar o código escrito na superclasse. No entanto a superclasse a subclasse são completamente diferentes.
+	- Tratamento
+		Se a herança não faz sentido e a subclasse de facto não tem nada em comum com a superclasse, eliminar a herança a favor da delegação "Replace Inheritance with Delegation"
+		Se a herança é apropriada, então o melhor é eliminar as variáveis e métodos na subclasse. Extrair todos os métodos necessários pela subclasse da superclasse e criar uma nova subclasse com os restantes, fazendo as duas classes herdar os métodos em conjunto ("Extract Superclass").
+	- Payoff
+		Mais claridade e organização de código.
+
+	=> Classes Alternativas com Interfaces Diferentes
+	- Sinais e Sintomas
+		Duas classes realizam funções idênticas, ams têm métodos com nomes diferentes.
+	- Razões para o Problema
+		O programador que crair uma das classes não sabia da existência de uma classe com função equivalente.
+	- Tratamento
+		Tentar por as interfaces das classes em termos de "denominador comum"
+		-> "Rename Methods" para fazê-los idênticos em todas as classes
+		-> "Move Method", "Add Parameter" e "Parametrize Method" para fazer todas as assinaturas da implementação dos métodos iguais.
+		-> Se apenas parte da funcionalidade das classes é duplicada, usar "Extract Superclass". NEste caso, as classes existentes tornam-se subclasses.
+		-> Depois de determinar qual o tratamento e aplicá-lo, pode ser possível eliminar uma das classes
+	- Payoff
+		-> É removido código duplicado, tornando o código em geral menos volumoso.
+		-> O código torna-se mais legível e percetivel
+	- Quando ignorar
+		Por vezes, fundir classes é impossível ou tão difícil que é inútil. Um exemplo é quando classes diferentes estão em bibliotecas diferentes que têm cada uma a sua própria versão da classe.
+
+>> Change Preventers <<
+Estes smells significam que se é preciso mudar algum num pedaço de código, torna-se necessário fazer mudanças noutros lugares do código. O desenvolvimento de programas torna-se mais complicado e caro como resultado.
+	=> Mudança Divergente
+	- Sinais e Sintomas
+		Quando é preciso mudar métodos não relacionados após a efetuar mudanças numa classe. Por exemplo, quando adicionar um novo tipo de produto implica mudar os métodos de encontrar, mostrar ou encomendar produtos.
+	- Razões para o Problema
+		Muitas vezes, estas mudanças são devidas a má programação ou "copypasta programming"
+	- Tratamento
+		-> Separar o comportamento da classe via "Extract Class"
+		-> Se classes diferentes têm o mesmo comportamento, é melhor combiná-las através da herança ("Extract SUperclass" e "Extract Subclass")
+	- Payoff
+		-> Melhor organização de código
+		-> Reduz código duplicado
+		-> Simplifica o suporte
+
+	=> Shotgun Surgery
+	- Sinais e Sintomas
+		Fazer alguma mudança implica fazer pequenas mudanças em várias classes
+	- Razões para o Problema
+		Uma dada responsabilidade foi dividida ao longo de um grande número de classes. Isto pode acontecer após aplicar "Divergent Change" sem cuidado.
+	- Tratamento
+		Usar "Move Method" e "Move Field" para mudar o comportamento para uma nova classe. Se não há uma classe apropriada com essa função, criar uma nova. 
+		Se mover código para a mesma classe deixa a classe princípal quase vazia, tentar eliminar estas classes via "Inline Class"
+	- Payoff
+		-> Melhor organização de código
+		-> Reduz código duplicado
+		-> Mais fácil de manter
+
+	=> Hierarquias de heranças paralelas
+	- Sinais e Sintomas
+		Quando se cria uma nova subclasse, é necessário criar uma outra subclasse para uma classe diferente.
+	- Razões para o Problema
+		Se a hierarquia for pequena, não existe problema. MAs quando novas classes são adicionadas, fazer as mudanças torna-se difícil.
+	- Tratamento
+		Pode-se desduplicar hierarquias de heranças paralelas em dois passos. Primeiro, fazer instâncias de uma hierarquia referir as instâncias de outra hierarquia. Depois, remover a hierarquia na classe referenciada usando "Move Method" e "Move Field"
+	- Payoff
+		-> Reduz código duplicado
+		-> Pode melhorar a organização do código
+	- Quando ignorar
+		Por vezes, a existência destas hierarquias paralelas é uma maneira de evitar uma porcaria maior na arquitetura de um programa. No caso do tratamento deste smell produzir código pior, o melhor é reverter todas as mudanças e utilizar o código como está.
+
+
+>> Dispensáveis <<
+Um dispensável é algo inútil e sem propósito cujo desaparecimento faz o código mais limpo, eficiente, e fácil de entender.
+	=> Comentários
+	- Sinais e Sintomas
+		Quando um método está repleto de comentários explicativos
+	- Razões para o Problema
+		Os comentários são normalmente adicionados com boa intenção, quando o autor percebe que o seu código não é intuitivo nem óbvio. Nestes casos, os comentários funcionam como desodorizante para esconder o smell.
+		Se um pedaço de código não pode ser entendido sem comentários, é melhor mudar a estrutura do código de maneira a que os comentários se tornem desnecessários.
+	- Tratamento
+		-> Se um comentário serve para explicar uma expressão complexa, essa exprssão deve ser dividida em subexpressões mais compreensivas via "Extract Variable"
+		-> Se um comentário explica uma secção do código, esta secção pode ser separada num método diferente via "Extract Method". O nome do novo método pode ser tirado do próprio comentário.
+		-> Se um método já foi extraído, mas os comentários ainda são necessários, é melhor dar ao método um nome mais intuitivo. Usar "Rename Method"
+		-> Se é preciso estabelecer regras sobre um estado que é necessário ao funcionamento do sistema, usar "Introduce Asserrtion"
+	- Payoff
+		Código mais intuitivo e óbvio
+	- Quando ignorar
+		Comentários podem ser uteis:
+		-> Para explicar o porquê de algo estar implementaado de uma certa forma
+		-> Para explicar o funcionamento de algoritmos complexos.
+
+	=> Código Duplicado
+	- Sinais e Sintomas
+		Dois pedaços de código são quase idênticos.
+	- Razões para o Problema
+		A duplicação de código normalmente ocorre quando programadores diferentes estão a trabalhar em partes diferentes do mesmo programa ao mesmo tempo. Como estão a trabalhar em tarefas diferentes, podem não ter noção que os colegas já escreveram código semelhante e que pode ser reutilizado.
+		Existe também duplicação mais súbtil, quando partes do código parecem diferentes, mas fazem o mesmo trabalho. Este tipo de duplicação pode ser difícil de encontrar e de corrigir.
+		Por vezes, a duplicação tem um propósito. Quando é preciso despachar para a deadline, e o código existente é útil, os programadores inexperientes podem copiar e colar código, alterando o necessário.
+	- Tratamento
+		Se o mesmo código é encontrado em dois ou mais métodos na mesma classe, usar "Extract Method" e chamá-lo nos dois sítios.
+		Se o mesmo código é encontrado em duas subclasses com o mesmo nível de herança:
+			-> Usar "Extract Method" em ambas classes, seguido de "Pull Up Field" para os campos utilizados no método que se vai mover para a superclasse.
+			-> Se o código duplicado é dentro de um construtor, usar "Pull Up Constructor Body"
+			-> Se o código duplicado é semelhante, mas não completamente idêntico, usar "Form Template Method"
+			-> Se dois métodos fazem a mesma coisa com algoritmos differentes, usar o melhor algoritmo e aplicar "Substitute Algorithm"
+		Se é encontrado código duplicado em classes diferentes:
+			-> Se as classes não fazem parte de nenhuma hierarquia, usar "Extract Superclass" para criar uma única instância de modo a manter esta funcionalidade.
+			-> Se é difícil ou impossível de criar uma superclasse, usar "Extract Class" numa classe e usar a nova componente na outra.
+		Se um grande número de condicionais estão presentes e executam o mesmo código (diferindo apenas na condição), fundir estes operadores numa só condição, usando "Consolidate Conditional Expression" e usar "Extract MEthod" para colocar a condição num método diferente com um nome fácil de entender.
+		Se o mesmo código é executado em todos os ramos de uma condicional: colocar o código idêntica fora da árvore de condição usando "Consolidate Duplicate Conditional Fragments"
+	- Payoff
+		-> Fundir código duplicado simplifica a estrutura do código e torna-o mais pequeno
+		-> Simplicidade + Tamanho pequeno = código mais fácil de simplificar e barato de suportar
+	- Quando Ignorar
+		Em raros casos, fundir dois pedaços de código idêntico pode tornar o código menos intuitivo.
+
+	=> Classe Preguiçosa
+	- Sinais e Sintomas
+		Entender e manter classes custa tempo e dinheiro. Portanto, se uma classe não faz o suficiente para requerer atenção, deve ser eliminada.
+	- Razões para o Problema
+		Talvez uma classe tenha sido desenhada para desempenahr uma funcionalidade, mas após algum refactor tornou-se ridicularmente pequena.
+		Ou então foi desenhada para suportar desenvolvimento futuro que nunca foi implementado
+	- Tratamento
+		Componentes que são quase inúteis podem receber "Inline Class"
+		Para sublcasses com pouca função, tentar "Collapse Hierarchy"
+	- Payoff
+		-> Reduz tamanho do código
+		-> Mais fácil de manter
+	- Quando ignorar
+		Por vezes, uma classe preguiçosa é adicionada para delinear intenções futuras de desenvolvimento. Neste caso é preciso usar um equilíbrio de claridade e simplicidade no código.
+
+	=> Classe de Dados
+	- Sinais e Sintomas
+		Uma classes de dados é uma classe que apenas contém variáveis e métodos de CRUD para acesso. Estes contentores simples de dados são usados por outras classes. Estas classes não possuem nenhuma funcionalidade adicional e não podem operar independentemente nos dados que possuem.
+	- Razões para o Problema
+		É normal quando uma nova classe contém apenas alguns campos públicos (e talvez getters e setters). Mas o poder dos objetos é que podem conter comportamento e operações nos seus dados
+	- Tratamento
+		-> Se uma classe contém campos públicos, usar "Encapsulate Field" de modo a esconder o acesso direto e permitir apenas o acesso através de getters e setters.
+		-> Usar "Encapsulate Collection" para dados guardados em coleções
+		-> Rever o código do cliente que é usado pela classe.  Nele, pode-se encontrar funcionalidades que estariam melhor localizadas na classe dos dados. Se este é o caso, usar "Move Method" e "Extract Method" para migrar esta funcionalidade.
+		Após a classe possuir métodos coerentes, pode-se remover os getters e os setters. Para isso usar "Remove Setting MEthod" e "Hide Method".
+	- Payoff
+		-> MAior compreensão e organização do código. Operações em dados particulares estão agora num só sitio, em vez de estarem espalhados pelo código
+		-> Ajudar a ecnontrar duplicação de código
+
+	=> Código Morto
+	- Sinais e Sintomas
+		Uma variável, parâmtro, campo ou método numa classe não é usado.
+	- Razões para o Problema
+		Quando os requisitos para o software mudam ou são feitas correções, e ninguém tem tempo para limpar código antigo
+		Esste código pode ser encontrado em condicionais complexas, quando um dos ramos se torna inatingível.
+	- Tratamento
+		A melhor maneira de encontrar código morto é usar um bom IDE
+		Apagar código não usado.
+		-> No cado de uma classe desnecessário usar "Inline Class" ou "Collapse Hierarchy".
+		-> Para remover parâmtros desnecessários, usar "Remove Parameter"
+	- Payoff
+		-> Reduz o tamanho do código
+		-> Suporte mais simples
+
+	=> Generalidade Especulativa
+	- Sinais e Sintomas
+		Existe uma classe, método, campo ou parâmetro que não é usado.
+	- Razões para o Problema
+		Por vezes, o código é criado "just in case" para suportar funcionalidade futura que não chega a ser implementada. Como resultado, o código torna-se difícil de perceber e manter.
+	- Tratamento
+		Para remover classes abstratas não usadas, usar "Collapse Hierarchy"
+		-> Delegação de funcionalidades desnecessária a outra classe pdoe ser eliminada via "Inline Class"
+		-> Métodos não usados ? usar "Inline Method"
+		-> Métodos com parâmetros não usados usar "Remove Parameter"
+		-> Campos não usados podem ser eliminados
+	- Payoff
+		-> Código menos volumoso
+		-> Mais fácil de manter
+	- Quando ignorar
+		-> Quando se está a trabalhar numa framework, é razoável criar funcionalidade que não é usada na própria framework, desde que seja precisa porquem utilizar a framework.
+		-> Antes de apagar o que quer que seja, é preciso ter a certeza que não é utilizado através de testes untiátios.
+
+
+>> Couplers <<
+Todos os smelss desta categoria contribuem para o acoplamento entre classes ou mostram o que acontece quando o acoplamento é substituído por delegação excessiva.
+	
+	=> Feature Envy
+	- Sinais e Sintomas
+		Um método acede mais aos dados de outro objeto do que aos seus.
+	- Razões para o Problema
+		Este smell pode ocorrer após alguns campos serem movido para uma classe de dados. Se este for o caso, o melhor é mover as operações sobre os dados para a classe
+	- Tratamento
+		Como regra, se algo muda ao mesmo tempo, o melhor é mantê-los no mesmo sítio. Normalmente, os dados e as funções sobre esses dados são alterados em conjunto.
+		-> Se um método tem de mudar de sítio, usar "Move Method"
+		-> Se apenas parte de um método acede os dados de outro objeto, usar "Extract MEthod".
+		-> Se um método usa funções de várias outras classes, primeira determinar qual é a classe que contém mais dados usados. Depois, colocar o método nesta classe, bem como o resto dos dados. Alternativamente, usar "Extract MEthod" para partir o método em várias partes que podem ser usadas em diferentes classes.
+	- Payoff
+		-> Menos código duplicado (se as operações de manipular os dados estiverem centralizadas)
+		-> Melhor organização do código
+	- Quando ignorar
+		Por vezes, o comportamento está propositadamente separado da classe.
+
+	=> Intimidade Inapropriada
+	- Sinais e Sintomas
+		Uma das classes usa instâncias internas e métodos de outra classe
+	- Razões para o Problemas
+		É preciso ter atenção nas classes que passam demasiado tempo juntas. Boas classes devem saber o menos possível sobre as outras. Estas classes são mais fáceis de manter e reusar.
+	- Tratamento
+		A solução mais simples é usar "Move Method" e "Move FIeld" para mover partes de uma classe para uma classe em que essas partes serão usadas. ISto apenas funciona se a primeira classe não necessita dessas partes.
+		-> Outra solução é usar "Extract Class" e "Hide Delegate" na classe para fazer "oficiais" as relações entre o código.
+		-> Se as classes são mutuamente interdependentes, usar "Change Bidirectional Association to Unidirectional"
+		-> Se esta "intimidade" acontece entre uma subclasse e superclasse, condierar "Replace Delegation with Inheritance".
+	- Payoff
+		-> Melhora organização do código
+		-> Simplifica o suporte e o reuso de código
+
+	=> Correntes de Mensagens
+	- Sinais e Sintomas
+		Em código, ver vários exemplos de : "A->b()->c()->d()"
+	- RAzões para o Problema
+		Uma corrente de mensagens acontece quando um cliente pede um objeto, e esse objeto pede outro objeto, e por aí em diante. Estas correntes indicam que o cliente é dependente da navegação da estrutura de classes. Alguma mudança neste relacionamento requer modificar o cliente.
+	- Tratamento
+		Para eliminar a corrente, usar "Hide Delegate"
+		Por vezes, é melhor pensar no porquê do último objeto estar a ser usado. Pode fazer sentido usar "Extract Method" para eta funcionalidade e movê-la para o início da corrente, usando "Move Method"
+	- Payoff
+		-> Pode reduzir dependência entre classes
+		-> Pode reduzir volume do código
+	- Quando Ignorar
+		Usar a delegação agressivamente pode causar código em que é difícil perceber aonde a funcionalidade está a ocorrer. Ou seja, evitar o "Middle Man" smell.
+
+	=> Middle Man
+	- Sinais e Sintomas
+		Se uma classe fa apenas uma ação, delegar trabalho a outra classe, para que é que existe?
+	- Razões para o Problema
+		Pode resultar da eliminação de correntes de mensagens
+		Noutros casos, pode ser resultado de mover a funcionalidade de uma classe para outras gradualmente. A classe resta como algo que não faz mais nada a não ser delegar.
+	- Tratamento
+		Se a maior parte dos métodos da classe delegam para outra classe, usar "Remove Middle Man"
+	- Payoff
+		Código menos volumoso
+	- Quando ignorar
+		Não eliminar o middle man que foi criado apra uma razão:
+			-> Pode ser adicionado para evitar dependÊncias entre classes
+			-> Alguns padrões de desenho criam middle mans de propósito (Proxy e Decorator)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
