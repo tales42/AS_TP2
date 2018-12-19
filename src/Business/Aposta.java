@@ -15,8 +15,8 @@ public class Aposta implements Serializable {
     public Aposta(int idAposta, double quantia, Resultado resultado){
         this.idAposta = idAposta;
         this.quantia = quantia;
-        ganhosPossiveis = calcularGanhos();
         this.resultado = resultado;
+        ganhosPossiveis = calcularGanhos();
     }
 
 

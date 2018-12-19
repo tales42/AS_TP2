@@ -37,6 +37,11 @@ public class BetESS implements Serializable {
         this.atual = null;
     }
 
+    public void setUtilizadores(Map<Integer, Utilizador> utilizadores) {
+        this.utilizadores = utilizadores;
+    }
+
+
     /*
     * Métodos Business.BetESS
     * */
