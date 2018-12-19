@@ -1,0 +1,69 @@
+==== Refactor Notes ====
+
+=> AdministradorDeEventos.java
+
+    Faltam comentários no código
+    Métodos não usados
+    Classe de dados apenas
+
+=> Aposta.java
+
+    Faltam comentários no código
+    Métodos não usados
+
+=> Apostador.java
+
+    Faltam comentários no código
+    Métodos não usados
+
+=> BetESS.java
+
+    Faltam comentários no código
+    Métodos muito grandes (registarEvento() )
+
+=> Crypto.java
+
+    Classe desnecessária
+
+=> Desporto.java
+
+    Faltam comentários no código
+    Classe dados apenas
+
+=> Equipa.java
+
+    Faltam comentários no código
+    Classe de dados apenas
+
+=> Evento.java
+
+    Faltam comentários no código
+    Classe muito grande
+    Métodos não usados
+    Métodos muito grandes ( toString() , notificarApostadores() )
+
+
+=> Notificacao.java
+
+    Faltam comentários no código
+    Métodos não usados
+
+=> Resultado.java
+
+    Faltam comentários no código
+    Métodos não usados
+
+=> Utilizador.java
+
+    Faltam comentários no código
+    Métodos não usados
+
+=> GUI.java
+
+    Faltam comentários no código
+    Classe grande
+    Código repetido
+    Métodos muito grandes (registarEventoForm(), novaApostaForm(),
+                        gerirSaldoHandler(), loggedInHandler(), loggedInScene(),
+                        registarForm(), showLoginForm())
+    Message Chains

@@ -24,62 +24,24 @@ public class Evento implements Serializable {
     private List<Resultado> resultadosPossiveis;
     private Map<Integer,Aposta> apostas;
 
-    /*
-    * Construtores
-    * */
 
-    public Evento(){
-        this.idEvento = 0;
-        this.data = LocalDate.now();
-        this.localizacao = "";
-        this.horaDeInicio = LocalTime.now();
-        this.duracao = Duration.ZERO;
-        this.estado ='A';
-        this.equipa1 = new Equipa();
-        this.equipa2 = new Equipa();
-        this.desporto = new Desporto();
-        this.resultadoFinal = new Resultado();
-        this.resultadosPossiveis = new ArrayList<>();
-        this.apostas = new HashMap<>();
-    }
-
-    public Evento(int idEvento, LocalDate data, String localizacao, LocalTime horaDeInicio, Duration duracao , char estado, Equipa equipa1, Equipa equipa2, Desporto desporto, Resultado resultadoFinal, ArrayList<Resultado> resultadosPossiveis, HashMap<Integer,Aposta> apostas){
+    public Evento(int idEvento, LocalDate data, String localizacao, LocalTime horaDeInicio, Duration duracao , Equipa equipa1, Equipa equipa2, Desporto desporto, List<Resultado> resultadosPossiveis){
         this.idEvento = idEvento;
         this.data = data;
         this.localizacao = localizacao;
         this.horaDeInicio = horaDeInicio;
         this.duracao = duracao;
-        this.estado = estado;
         this.equipa1 = equipa1;
         this.equipa2 = equipa2;
         this.desporto = desporto;
-        this.resultadoFinal = resultadoFinal;
         this.resultadosPossiveis = resultadosPossiveis;
-        this.apostas = apostas;
+        estado = 'A';
+        resultadoFinal = new Resultado();
+        apostas = new HashMap<>();
     }
 
-    public Evento(Evento evento){
-        this.idEvento = evento.getIdEvento();
-        this.data = evento.getData();
-        this.localizacao = evento.getLocalizacao();
-        this.horaDeInicio = evento.getHoraDeInicio();
-        this.duracao = evento.getDuracao();
-        this.estado = evento.getEstado();
-        this.equipa1 = evento.getEquipa1();
-        this.equipa2 = evento.getEquipa2();
-        this.desporto = evento.getDesporto();
-        this.resultadoFinal = evento.getResultadoFinal();
-        this.resultadosPossiveis = evento.getResultadosPossiveis();
-        this.apostas = evento.getApostas();
-    }
 
-    /*
-    * Getters e Setters
-    * */
 
-    public void setIdEvento(int idEvento) {
-        this.idEvento = idEvento;
-    }
 
     public int getIdEvento() {
         return this.idEvento;
@@ -89,32 +51,16 @@ public class Evento implements Serializable {
         return this.data;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
-
     public String getLocalizacao() {
         return this.localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
     }
 
     public LocalTime getHoraDeInicio() {
         return this.horaDeInicio;
     }
 
-    public void setHoraDeInicio(LocalTime horaDeInicio) {
-        this.horaDeInicio = horaDeInicio;
-    }
-
     public Duration getDuracao() {
         return this.duracao;
-    }
-
-    public void setDuracao(Duration duracao) {
-        this.duracao = duracao;
     }
 
     public char getEstado() {
@@ -129,25 +75,14 @@ public class Evento implements Serializable {
         return this.equipa1;
     }
 
-    public void setEquipa1(Equipa equipa1) {
-        this.equipa1 = equipa1;
-    }
-
     public Equipa getEquipa2() {
         return this.equipa2;
-    }
-
-    public void setEquipa2(Equipa equipa2) {
-        this.equipa2 = equipa2;
     }
 
     public Desporto getDesporto() {
         return this.desporto;
     }
 
-    public void setDesporto(Desporto desporto) {
-        this.desporto = desporto;
-    }
 
     public void setResultadoFinal(Resultado resultadoFinal) {
         this.resultadoFinal = resultadoFinal;
@@ -161,35 +96,8 @@ public class Evento implements Serializable {
         return this.resultadosPossiveis;
     }
 
-    public void setResultadosPossiveis(List<Resultado> resultadosPossiveis) {
-        this.resultadosPossiveis = resultadosPossiveis;
-    }
-
     public Map<Integer, Aposta> getApostas() {
         return this.apostas;
-    }
-
-    public void setApostas(Map<Integer, Aposta> apostas) {
-        this.apostas = apostas;
-    }
-
-    /*
-    * Clone, Equals e toString
-    * */
-
-    public Evento clone(){
-        return new Evento(this);
-    }
-
-    public boolean equals(Object object){
-        if(object==this) return true;
-
-        if((object==null) | (object.getClass() != this.getClass())) return false;
-
-        Evento evento = (Evento) object;
-
-        if(evento.getIdEvento() == this.getIdEvento()) return true;
-        else return false;
     }
 
     public String toString(){
@@ -243,7 +151,6 @@ public class Evento implements Serializable {
         for(int idUtilizador : apostas.keySet()){
             Aposta aposta = apostas.get(idUtilizador);
             Notificacao notificacao = new Notificacao();
-            notificacao.setData(LocalDateTime.now());
             Resultado resultadoAposta = aposta.getResultado();
             if(resultadoAposta.equals(this.getResultadoFinal())){
                 StringBuilder s = new StringBuilder();
@@ -275,5 +182,9 @@ public class Evento implements Serializable {
             }
         }
     }
+
+    /**
+     * Eliminado clone() e toString(), construtores vazio e de cópia, e quase todos os setters à exceção do setEstado
+     */
 
 }

@@ -59,22 +59,10 @@ public class Utilizador implements Serializable {
     }
 
     public String getPassword() {
-        /*
-        Crypto crypto = new Crypto();
-        final String iv = "0123456789012345";
-        final String secretKey = "BetESS";
-        return crypto.decrypt(this.password, iv, secretKey);
-        */
         return this.password;
     }
 
     public void setPassword(String password) {
-        /*
-        Crypto crypto = new Crypto();
-        final String iv = "0123456789012345";
-        final String secretKey = "BetESS";
-        this.password = crypto.encrypt(password, iv, secretKey);
-        */
         this.password = password;
     }
 

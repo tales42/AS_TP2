@@ -23,38 +23,18 @@ public class Resultado implements Serializable {
         this.odd = odd;
     }
 
-    public Resultado(Resultado resultado){
-        this.designacao = resultado.getDesignacao();
-        this.odd = resultado.getOdd();
-    }
-
-    /*
-    * Construtores
-    * */
-
     public String getDesignacao() {
         return this.designacao;
-    }
-
-    public void setDesignacao(String designacao) {
-        this.designacao = designacao;
     }
 
     public double getOdd() {
         return this.odd;
     }
 
-    public void setOdd(double odd) {
-        this.odd = odd;
-    }
-
     /*
     * Clone, Equals e toString
     * */
 
-    public Resultado clone(){
-        return new Resultado(this);
-    }
 
     public boolean equals(Object object){
         if(object == this) return true;
@@ -75,4 +55,9 @@ public class Resultado implements Serializable {
         s.append("-----------------\n");
         return s.toString();
     }
+
+    /**
+     * Refactor:
+     * Eliminados: clone() e toString(), construtor de cópia
+     */
 }

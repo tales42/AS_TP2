@@ -19,26 +19,9 @@ public class Notificacao implements Serializable {
         this.texto="";
     }
 
-    public Notificacao(LocalDateTime data, String texto){
-        this.data = data;
-        this.texto = texto;
-    }
-
-    public Notificacao(Notificacao notificacao){
-        this.data = notificacao.getData();
-        this.texto = notificacao.getTexto();
-    }
-
-    /*
-    * Getters e Setters
-    * */
 
     public LocalDateTime getData() {
         return this.data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
     }
 
     public String getTexto() {
@@ -49,24 +32,6 @@ public class Notificacao implements Serializable {
         this.texto = texto;
     }
 
-    /*
-    * Clone, Equals e toString
-    * */
-
-    public Notificacao clone(){
-        return  new Notificacao(this);
-    }
-
-    public boolean equals(Object object){
-        if(object == this) return true;
-
-        if((object==null) || (object.getClass() != this.getClass())) return false;
-
-        Notificacao notificacao = (Notificacao) object;
-
-        if(notificacao.getData().equals(this.getData()) && notificacao.getTexto().equals(this.getTexto())) return true;
-        else return false;
-    }
 
     public String toString(){
         StringBuilder s = new StringBuilder();
@@ -77,5 +42,8 @@ public class Notificacao implements Serializable {
         return s.toString();
     }
 
-
+    /**
+     * Refactor:
+     * Eliminados: clone(), equals(), construtor parametrizado e de cópia e setData
+     */
 }

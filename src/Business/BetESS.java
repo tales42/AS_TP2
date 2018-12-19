@@ -37,12 +37,6 @@ public class BetESS implements Serializable {
         this.atual = null;
     }
 
-
-    public void setUtilizadores(Map<Integer, Utilizador> utilizadores) {
-        this.utilizadores = utilizadores;
-    }
-
-
     /*
     * Métodos Business.BetESS
     * */
@@ -52,16 +46,10 @@ public class BetESS implements Serializable {
     }
 
     public void registarApostador(String email, String password, String nome) throws ApostadorRegistadoException {
-        Apostador apostador = new Apostador();
         for(Utilizador utilizador : utilizadores.values()){
             if(utilizador.getEmail().equals(email)) throw new ApostadorRegistadoException(email);
         }
-        int idUtilizador = utilizadores.size()+1;
-        apostador.setIdUtilizador(idUtilizador);
-        apostador.setEmail(email);
-        apostador.setPassword(password);
-        apostador.setNome(nome);
-        apostador.setSaldo(0);
+        Apostador apostador = new Apostador(utilizadores.size()+1,email,password,nome);
         utilizadores.put(apostador.getIdUtilizador(),apostador);
     }
 
@@ -69,11 +57,11 @@ public class BetESS implements Serializable {
         Utilizador atual = getUtilizador(email);
         if((getUtilizador(email).getIdUtilizador() == 0)) throw new UtilizadorInexistenteException();
         if(!atual.getPassword().equals(password)) throw new PasswordIncorretaException();
-        else this.setAtual(atual);
+        else setAtual(atual);
     }
 
     public void terminarSessao(){
-        this.atual = null;
+        atual = null;
     }
 
     public Utilizador getUtilizador(String email){
@@ -88,38 +76,28 @@ public class BetESS implements Serializable {
     }
 
     public Map<Integer,Evento> getEventos(){
-        return this.eventos;
-    }
-
-    public List<Resultado> getResultado(){
-        ArrayList<Resultado> resultados = new ArrayList<>();
-        for(Evento e : this.getEventos().values()){
-            if(e.getEstado() == 'F'){
-                resultados.add(e.getResultadoFinal());
-            }
-        }
-        return resultados;
+        return eventos;
     }
 
     public Map<Integer,Utilizador> getUtilizadores(){
-        return this.utilizadores;
+        return utilizadores;
     }
 
     public Utilizador getAtual(){
-        return this.atual;
+        return atual;
     }
 
     public Map<Integer,Desporto> getDesportos(){
-        return this.desportos;
+        return desportos;
     }
 
     public Map<Integer,Equipa> getEquipas(){
-        return this.equipas;
+        return equipas;
     }
 
     public Map<Integer, Evento> getEventosAbertos(){
         Map<Integer,Evento> eventosAbertos = new HashMap<>();
-        for(Evento e: this.eventos.values()){
+        for(Evento e: eventos.values()){
             if(e.getEstado() == 'A') eventosAbertos.put(e.getIdEvento(),e);
         }
         return eventosAbertos;
@@ -146,55 +124,28 @@ public class BetESS implements Serializable {
         resultados.add(vitoriaEquipa2);
 
         Duration duracao = Duration.ofMinutes(90);
+        Evento evento = new Evento(eventos.size()+1, date, localizacao, horaComeco, duracao, eq1, eq2, desp, resultados);
 
-        Evento novoEvento = new Evento();
-        novoEvento.setIdEvento(eventos.size()+1);
-        novoEvento.setDesporto(desp);
-        novoEvento.setEquipa1(eq1);
-        novoEvento.setEquipa2(eq2);
-        novoEvento.setData(date);
-        novoEvento.setHoraDeInicio(horaComeco);
-        novoEvento.setEstado('A');
-        novoEvento.setLocalizacao(localizacao);
-        novoEvento.setDuracao(duracao);
-        novoEvento.setResultadosPossiveis(resultados);
-
-        eventos.put(novoEvento.getIdEvento(),novoEvento);
+        eventos.put(evento.getIdEvento(),evento);
 
     }
 
     public void initializeSystem(){
-        Utilizador admin = new AdministradorDeEventos();
-        admin.setIdUtilizador(this.getUtilizadores().size()+1);
-        admin.setEmail("admin");
-        admin.setPassword("betess");
-        admin.setNome("Admin");
-        this.getUtilizadores().put(admin.getIdUtilizador(),admin);
-        System.out.println(this.getUtilizador("admin").toString());
-
-
-        Desporto futebol = new Desporto();
-        futebol.setIdDesporto(1);
-        futebol.setDesignacao("Futebol");
-
-        this.desportos.put(futebol.getIdDesporto(),futebol);
-
-        Desporto basquetebol = new Desporto();
-        basquetebol.setIdDesporto(2);
-        basquetebol.setDesignacao("Basquetebol");
-
-        this.desportos.put(basquetebol.getIdDesporto(),basquetebol);
-
-
-        Equipa slb = new Equipa();
-        slb.setIdEquipa(1);
-        slb.setDesignacao("Sport Lisboa e Benfica");
-        this.equipas.put(slb.getIdEquipa(),slb);
-        Equipa fcp = new Equipa();
-        fcp.setIdEquipa(2);
-        fcp.setDesignacao("Futebol Clube do Porto");
-        this.equipas.put(fcp.getIdEquipa(),fcp);
-
+        Utilizador admin = new AdministradorDeEventos(getUtilizadores().size()+1,"admin","betess","Admin");
+        getUtilizadores().put(admin.getIdUtilizador(),admin);
+        Desporto futebol = new Desporto(1,"Futebol");
+        desportos.put(futebol.getIdDesporto(),futebol);
+        Desporto basquetebol = new Desporto(2,"Basquetebol");
+        desportos.put(basquetebol.getIdDesporto(),basquetebol);
+        Equipa slb = new Equipa(1,"Sport Lisboa e Benfica");
+        equipas.put(slb.getIdEquipa(),slb);
+        Equipa fcp = new Equipa(2, "Futebol Clube do Porto");
+        equipas.put(fcp.getIdEquipa(),fcp);
     }
+
+    /**
+     * Refactor: eliminado getResultado()
+     * Trocados construtores para ocuparem menos linhas
+     */
 
 }

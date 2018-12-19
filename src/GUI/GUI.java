@@ -1,27 +1,6 @@
 package GUI;
 import Business.*;
-
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import Exception.*;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.io.*;
 import java.time.format.DateTimeParseException;
@@ -36,7 +15,7 @@ public class GUI {
 
     private static BetESS bet;
 
-    private static final String filename = "../data.bin";
+    private static final String filename = "data.bin";
 
     public static void main(String[] args) {
         loadFile();
@@ -624,7 +603,8 @@ public class GUI {
      * Bad Smells:
      * -> Métodos Longos -> registarEventoForm(), novaApostaForm(), gerirSaldoHandler(), loggedInHandler(), loggedInScene(), registarForm(), showLoginForm()
      * -> Classe grande -> 25 métodos
-     *
+     * -> Código repetido -> "prima 0 para sair" -> extract method
+     * -> Message Chains -> cadeias de varíaveis
      */
 
 }
