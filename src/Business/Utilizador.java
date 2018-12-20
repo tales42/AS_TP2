@@ -11,11 +11,9 @@ public class Utilizador implements Serializable {
     private String password;
     private String nome;
 
-
-    /*
-    * Construtores
-    * */
-
+    /**
+     * Construtor Vazio de um Utilizador
+     */
     public Utilizador(){
         this.idUtilizador = 0;
         this.email="";
@@ -23,6 +21,13 @@ public class Utilizador implements Serializable {
         this.nome="";
     }
 
+    /**
+     * Construtor Parametrizado de um Utilizador
+     * @param idUtilizador
+     * @param email
+     * @param password
+     * @param nome
+     */
     public Utilizador(int idUtilizador, String email, String password, String nome){
         this.setIdUtilizador(idUtilizador);
         this.setEmail(email);
@@ -30,76 +35,69 @@ public class Utilizador implements Serializable {
         this.setNome(nome);
     }
 
-    public Utilizador(Utilizador u){
-        this.setIdUtilizador(u.getIdUtilizador());
-        this.setEmail(u.getEmail());
-        this.setPassword(u.getPassword());
-        this.setNome(u.getNome());
-    }
 
-
-    /*
-    * Getters e Setters
-    * */
-
+    /**
+     * Getter do identificador do Utilizador
+     * @return idUtilizador
+     */
     public int getIdUtilizador() {
-        return this.idUtilizador;
+        return idUtilizador;
     }
 
+    /**
+     * Setter do identificador do Utilizador
+     * @param idUtilizador
+     */
     public void setIdUtilizador(int idUtilizador){
         this.idUtilizador = idUtilizador;
     }
 
+    /**
+     * Getter do Email do Utilizador
+     * @return Email
+     */
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
+    /**
+     * Setter do Email do Utilizador
+     * @param email
+     */
     public void setEmail(String email){
         this.email = email;
     }
 
+    /**
+     * Getter da Password do Utilizador
+     * @return Password
+     */
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
+    /**
+     * Setter da Password do Utilizador
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Getter do Nome do Utilizador
+     * @return Nome
+     */
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
+    /**
+     * Setter do Nome do Utilizador
+     * @param nome
+     */
     public void setNome(String nome){
         this.nome = nome;
     }
 
-    /*
-    * Clone, Equals e toString
-    * */
-
-    public Utilizador clone(){
-        return new Utilizador(this);
-    }
-
-    public boolean equals(Object object){
-        if(object==this) return true;
-
-        if((object==null) || (object.getClass() != this.getClass())) return false;
-
-        Utilizador utilizador = (Utilizador) object;
-        if(utilizador.getIdUtilizador() == this.idUtilizador) return true;
-        else return false;
-    }
-
-
-    public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Utilizador----\n");
-        s.append("ID : " + this.getIdUtilizador() + "\n");
-        s.append("Email : " + this.getEmail() + "\n");
-        s.append("Nome : " + this.getNome() + "\n");
-        s.append("------------------\n");
-        return s.toString();
-    }
 }

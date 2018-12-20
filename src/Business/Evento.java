@@ -24,7 +24,18 @@ public class Evento implements Serializable {
     private List<Resultado> resultadosPossiveis;
     private Map<Integer,Aposta> apostas;
 
-
+    /**
+     * Construtor parametrizado de um Evento
+     * @param idEvento
+     * @param data
+     * @param localizacao
+     * @param horaDeInicio
+     * @param duracao
+     * @param equipa1
+     * @param equipa2
+     * @param desporto
+     * @param resultadosPossiveis
+     */
     public Evento(int idEvento, LocalDate data, String localizacao, LocalTime horaDeInicio, Duration duracao , Equipa equipa1, Equipa equipa2, Desporto desporto, List<Resultado> resultadosPossiveis){
         this.idEvento = idEvento;
         this.data = data;
@@ -41,65 +52,123 @@ public class Evento implements Serializable {
     }
 
 
-
-
+    /**
+     * Getter do identificador do Evento
+     * @return idEvento
+     */
     public int getIdEvento() {
-        return this.idEvento;
+        return idEvento;
     }
 
+    /**
+     * Getter da Data  do Evento
+     * @return Data
+     */
     public LocalDate getData() {
-        return this.data;
+        return data;
     }
 
+    /**
+     * Getter da Localização  do Evento
+     * @return Localização
+     */
     public String getLocalizacao() {
-        return this.localizacao;
+        return localizacao;
     }
 
+    /**
+     * Getter da Hora de Início  do Evento
+     * @return Hora de Início
+     */
     public LocalTime getHoraDeInicio() {
-        return this.horaDeInicio;
+        return horaDeInicio;
     }
 
+    /**
+     * Getter da Duração  do Evento
+     * @return Duração
+     */
     public Duration getDuracao() {
-        return this.duracao;
+        return duracao;
     }
 
+    /**
+     * Getter do Estado do Evento
+     * @return Estado
+     */
     public char getEstado() {
-        return this.estado;
+        return estado;
     }
 
+    /**
+     * Setter do Estado do Evento
+     * @param estado
+     */
     public void setEstado(char estado) {
         this.estado = estado;
     }
 
+    /**
+     * Getter da Equipa 1  do Evento
+     * @return Equipa 1
+     */
     public Equipa getEquipa1() {
-        return this.equipa1;
+        return equipa1;
     }
 
+    /**
+     * Getter da Equipa 2  do Evento
+     * @return Equipa 2
+     */
     public Equipa getEquipa2() {
-        return this.equipa2;
+        return equipa2;
     }
 
+    /**
+     * Getter do Desporto do Evento
+     * @return Desporto
+     */
     public Desporto getDesporto() {
-        return this.desporto;
+        return desporto;
     }
 
 
+    /**
+     * Setter do Resultado Final de um Evento
+     * @param resultadoFinal
+     */
     public void setResultadoFinal(Resultado resultadoFinal) {
         this.resultadoFinal = resultadoFinal;
     }
 
+    /**
+     * Getter do Resultado Final do Evento
+     * @return
+     */
     public Resultado getResultadoFinal() {
-        return this.resultadoFinal;
+        return resultadoFinal;
     }
 
+    /**
+     * Getter da Lista de Resultados Possíveis  do Evento
+     * @return Resultados Possíveis
+     */
     public List<Resultado> getResultadosPossiveis() {
-        return this.resultadosPossiveis;
+        return resultadosPossiveis;
     }
 
+    /**
+     * Getter do Map de Apostas  do Evento
+     * @return Apostas
+     */
     public Map<Integer, Aposta> getApostas() {
-        return this.apostas;
+        return apostas;
     }
 
+    /**
+     * toString
+     * @return String
+     */
     public String toString(){
         StringBuilder s = new StringBuilder();
         s.append("----Evento----\n");
@@ -132,10 +201,11 @@ public class Evento implements Serializable {
         return s.toString();
     }
 
-    /*
-    * Métodos BetESS
-    * */
 
+    /**
+     * Método que altera o estado de um Evento, notificando os apostadores e atribuindo os prémios
+     * @param bet
+     */
     public void alterarEstado(BetESS bet){
         if(getEstado()=='A'){
             setEstado('F');
@@ -147,6 +217,10 @@ public class Evento implements Serializable {
         }
     }
 
+    /**
+     * Método que notifica todos os Apostadores sobre este evento do término deste e do Resultado Final
+     * @param utilizadores
+     */
     public void notificarApostadores(Map<Integer,Utilizador> utilizadores){
         for(int idUtilizador : apostas.keySet()){
             Aposta aposta = apostas.get(idUtilizador);
@@ -171,6 +245,10 @@ public class Evento implements Serializable {
         }
     }
 
+    /**
+     * Método que atribui os prémios aos utilizadores que venceram a Aposta
+     * @param utilizadores
+     */
     public void atribuiPremios(Map<Integer,Utilizador> utilizadores){
         for(int idUtilizador : apostas.keySet()){
             Aposta aposta = apostas.get(idUtilizador);

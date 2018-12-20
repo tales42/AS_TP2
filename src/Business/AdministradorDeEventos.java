@@ -7,6 +7,13 @@ public class AdministradorDeEventos extends Utilizador {
     private boolean estado;
 
 
+    /**
+     * Construtor parametrizado de um Administrador de Eventos
+     * @param idUtilizador
+     * @param email
+     * @param password
+     * @param nome
+     */
     public AdministradorDeEventos(int idUtilizador, String email, String password, String nome){
         super(idUtilizador,email,password,nome);
         estado = true;

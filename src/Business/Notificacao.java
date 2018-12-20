@@ -10,29 +10,42 @@ public class Notificacao implements Serializable {
     private LocalDateTime data;
     private String texto;
 
-    /*
-    * Construtores
-    * */
-
+    /**
+     * Construtor Vazio de uma Notificação
+     */
     public Notificacao(){
         this.data = LocalDateTime.now();
         this.texto="";
     }
 
-
+    /**
+     * Getter da Data de uma Notificação
+     * @return Data
+     */
     public LocalDateTime getData() {
-        return this.data;
+        return data;
     }
 
+    /**
+     * Getter do Texto de uma Notificação
+     * @return Texto
+     */
     public String getTexto() {
-        return this.texto;
+        return texto;
     }
 
+    /**
+     * Setter do texto de uma Notificação
+     * @param texto
+     */
     public void setTexto(String texto) {
         this.texto = texto;
     }
 
-
+    /**
+     * toString
+     * @return String
+     */
     public String toString(){
         StringBuilder s = new StringBuilder();
         s.append("----Notificação----\n");

@@ -24,38 +24,60 @@ public class Apostador extends Utilizador {
         notificacoes = new ArrayList<>();
     }
 
-    /*
-    * Getters e Setters
-    * */
-
+    /**
+     * Getter do cartão associado ao Apostador
+     * @return cartão associado
+     */
     public String getCartaoAssociado() {
-        return this.cartaoAssociado;
+        return cartaoAssociado;
     }
 
+    /**
+     * Setter do cartão associado ao Apostador
+     * @param cartaoAssociado
+     */
     public void setCartaoAssociado(String cartaoAssociado) {
         this.cartaoAssociado = cartaoAssociado;
     }
 
+    /**
+     * Getter do saldo de um Apostador
+     * @return saldo
+     */
     public double getSaldo() {
-        return this.saldo;
+        return saldo;
     }
 
+    /**
+     * Setter do saldo de um Apostador
+     * @param saldo
+     */
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
+    /**
+     * Getter de um Map de Apostas de um Apostador
+     * @return Apostas
+     */
     public Map<Integer, Aposta> getApostas() {
-        return this.apostas;
+        return apostas;
     }
 
-
+    /**
+     * Getter de uma Lista com as Notificações de um Apostador
+     * @return Notificações
+     */
     public List<Notificacao> getNotificacoes() {
         return this.notificacoes;
     }
 
 
 
-    @Override
+    /**
+     * Método toString
+     * @return String
+     */
     public String toString(){
         StringBuilder s = new StringBuilder();
         s.append("----Business.Apostador----\n");
@@ -68,21 +90,34 @@ public class Apostador extends Utilizador {
         return s.toString();
     }
 
-    /*
-    * Métodos Business.BetESS
-    * */
-
+    /**
+     * Método que permite depositar uma quantia em ESSCoins a um Apostador
+     * @param quantia
+     */
     public void depositar(double quantia){
         double novoSaldo = this.getSaldo() + quantia;
         this.setSaldo(novoSaldo);
     }
 
+    /**
+     * Método que levanta uma quantia em ESSCoins de um Apostador.
+     * Lança uma exceção, caso este não possua saldo suficiente
+     * @param quantia
+     * @throws SaldoInsuficienteException
+     */
     public void levantar(double quantia) throws SaldoInsuficienteException {
         double novoSaldo = this.getSaldo() - quantia;
         if(novoSaldo < 0) throw new SaldoInsuficienteException(novoSaldo);
         else this.setSaldo(novoSaldo);
     }
 
+    /**
+     * Método que regista uma Aposta a um Apostador, lançando uma exceção caso este não possua saldo suficente.
+     * @param evento
+     * @param resultado
+     * @param quantia
+     * @throws SaldoInsuficienteException
+     */
     public void registarAposta( Evento evento, Resultado resultado, double quantia) throws SaldoInsuficienteException{
         Aposta aposta = new Aposta(apostas.size()+1,quantia,resultado);
         levantar(quantia);

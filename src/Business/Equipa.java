@@ -10,16 +10,28 @@ public class Equipa implements Serializable {
     private String designacao;
 
 
+    /**
+     * Construtor parametrizado de uma Equipa
+     * @param idEquipa
+     * @param designacao
+     */
     public Equipa(int idEquipa, String designacao){
         this.idEquipa = idEquipa;
         this.designacao = designacao;
     }
 
+    /**
+     * Getter do identificado da Equipa
+     * @return idEquipa
+     */
     public int getIdEquipa() {
         return this.idEquipa;
     }
 
-
+    /**
+     * Getter da designação de uma Equipa
+     * @return designação
+     */
     public String getDesignacao() {
         return this.designacao;
     }

@@ -9,33 +9,45 @@ public class Resultado implements Serializable {
     public String designacao;
     public double odd;
 
-    /*
-    * Getters e Setters
-    * */
-
+    /**
+     * Construtor Vazio de um Resultado
+     */
     public Resultado(){
         this.designacao = "";
         this.odd = 0;
     }
 
+    /**
+     * Construtor parametrizado de um Resultado
+     * @param designacao
+     * @param odd
+     */
     public Resultado(String designacao, double odd){
         this.designacao = designacao;
         this.odd = odd;
     }
 
+    /**
+     * Getter da Designação de um Resultado
+     * @return Designação
+     */
     public String getDesignacao() {
-        return this.designacao;
+        return designacao;
     }
 
+    /**
+     * Getter da Odd de um Resultado
+     * @return Odd
+     */
     public double getOdd() {
-        return this.odd;
+        return odd;
     }
 
-    /*
-    * Clone, Equals e toString
-    * */
-
-
+    /**
+     * Método equals
+     * @param object
+     * @return Boolean
+     */
     public boolean equals(Object object){
         if(object == this) return true;
 
@@ -47,6 +59,10 @@ public class Resultado implements Serializable {
         else return false;
     }
 
+    /**
+     * toString
+     * @return String
+     */
     public String toString(){
         StringBuilder s = new StringBuilder();
         s.append("----Resultado----\n");
