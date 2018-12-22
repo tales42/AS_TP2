@@ -3,29 +3,30 @@ CLASSE ADMINISTRADORDEEVENTOS
     - alterações de design (apagados parentesis desnecessários)
     - apagada variável estado, não era utilizada;
     - alterado nome das variáveis para que fossem mais explicitas
-    - apagados métodos não utilizados - contrutor, get e set
-    - alterado método clone para não incluir if then else desnecessário - mais performance
+    - apagados métodos não utilizados - get e set
+    - alterado método equals para não incluir if then else desnecessário - mais performance
     - alterado to string para melhorar a performance
 
-    --> Passou de 45 violações para 19 violações
+    --> Passou de 45 violações para 24 violações
 
 CLASSE APOSTA
 
 
     - alterações de design (apagados parentesis desnecessários)
     - apagados métodos não utilizados - contrutor
-    - alterado método clone para não incluir if then else desnecessário - mais performance
+    - alterado método equals para não incluir if then else desnecessário - mais performance
     - alterado to string para melhorar a performance
 
-    --> Passou de 52 violações para 33 violações
+    --> Passou de 52 violações para 37 violações
 
 ClASSE APOSTADOR
 
     - alterações de design (apagados parentesis desnecessários)
     - otimização dos imports
-    - apagados métodos não utilizados - contrutor
-    - alterado método clone para não incluir if then else desnecessário - mais performance
+    - apagados métodos não utilizados - contrutor, associarcartao
+    - apagadas variaveis não utilizadas no metodo clone
+    - alterado método equals para não incluir if then else desnecessário - mais performance
     - alterado to string para melhorar a performance
 
-    --> Passou de 85 violações para 57 violações
+    --> Passou de 85 violações para 51 violações
 

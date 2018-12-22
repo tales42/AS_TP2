@@ -80,8 +80,6 @@ public class Apostador extends Utilizador {
         String email = this.getEmail();
         String password = this.getPassword();
         String nome = this.getNome();
-        String cartaoAssociado = this.getCartaoAssociado();
-        double saldo = this.getSaldo();
         return new Apostador(idUtilizador,email,password,nome);
     }
 
@@ -116,10 +114,6 @@ public class Apostador extends Utilizador {
     /*
     * Métodos Business.BetESS
     * */
-
-    public void associarCartao(String cartaoAssociado){
-        this.setCartaoAssociado(cartaoAssociado);
-    }
 
     public void depositar(double quantia){
         double novoSaldo = this.getSaldo() + quantia;

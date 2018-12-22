@@ -17,6 +17,10 @@ public class AdministradorDeEventos extends Utilizador {
         super(admin.getIdUtilizador(),admin.getEmail(),admin.getPassword(),admin.getNome());
     }
 
+    public AdministradorDeEventos(int idUtilizador, String email, String password, String nome){
+        super(idUtilizador,email,password,nome);
+    }
+
     /*
     * Clone, Equals e toString
     * */
