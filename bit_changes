@@ -30,3 +30,21 @@ ClASSE APOSTADOR
 
     --> Passou de 85 violações para 51 violações
 
+CLASSE EVENTO
+
+    - apagado import nao usado 
+    - alteração do método notificarApostadores (declaração de uma única notificação que é reutilizada em todas as iterações do ciclo,extração das notificações para métodos separados)
+
+    --> Passou de 131 violações para 109 violações
+
+CLASSE NOTIFICAÇÃO
+
+    - alterado to string para melhorar a performance
+
+    --> Passou de 16 violações para 10 violações
+
+CLASSE RESULTADO
+
+    - 
+
+    --> Passou de 42 violações para 22 violações

@@ -51,12 +51,11 @@ public class Resultado implements Serializable {
     public boolean equals(Object object){
         if(object == this) return true;
 
-        if((object==null) || (object.getClass() != this.getClass())) return false;
+        if(object==null || object.getClass() != this.getClass()) return false;
 
         Resultado resultado = (Resultado) object;
 
-        if((resultado.getDesignacao().equals(this.getDesignacao())) && (resultado.getOdd() == this.getOdd())) return true;
-        else return false;
+        return resultado.getDesignacao().equals(this.getDesignacao()) && resultado.getOdd() == this.getOdd();
     }
 
     /**
@@ -64,12 +63,14 @@ public class Resultado implements Serializable {
      * @return String
      */
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Resultado----\n");
-        s.append("Odd : "+ this.getOdd() + "\n");
-        s.append(this.getDesignacao() + "\n");
-        s.append("-----------------\n");
-        return s.toString();
+        StringBuilder string = new StringBuilder();
+        string
+            .append("----Resultado----\nOdd : ")
+            .append(this.getOdd())
+            .append("\n")
+            .append(this.getDesignacao())
+            .append("\n-----------------\n");
+        return string.toString();
     }
 
     /**

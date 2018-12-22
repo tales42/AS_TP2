@@ -47,12 +47,14 @@ public class Notificacao implements Serializable {
      * @return String
      */
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Notificação----\n");
-        s.append("Timestamp : " + this.getData() + "\n");
-        s.append(this.getTexto() + "\n");
-        s.append("-------------------\n");
-        return s.toString();
+        StringBuilder string = new StringBuilder();
+        string
+                .append("----Notificação----\nTimestamp : ")
+                .append(this.getData())
+                .append("\n")
+                .append(this.getTexto())
+                .append("\n-------------------\n");
+        return string.toString();
     }
 
     /**

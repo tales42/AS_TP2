@@ -3,7 +3,6 @@ package Business;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -46,9 +45,9 @@ public class Evento implements Serializable {
         this.equipa2 = equipa2;
         this.desporto = desporto;
         this.resultadosPossiveis = resultadosPossiveis;
-        estado = 'A';
-        resultadoFinal = new Resultado();
-        apostas = new HashMap<>();
+        this.estado = 'A';
+        this.resultadoFinal = new Resultado();
+        this.apostas = new HashMap<>();
     }
 
 
@@ -170,35 +169,35 @@ public class Evento implements Serializable {
      * @return String
      */
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Evento----\n");
-        s.append("ID : " + this.getIdEvento() + "\n");
-        s.append("Data : " + this.getData().toString() + " | ");
-        s.append("Hora de Início : " + this.getHoraDeInicio().toString() + " | ");
-        s.append("Duração : " + this.getDuracao().toString() + "\n");
-        s.append("Desporto : "+ this.getDesporto().getDesignacao() + "\n");
-        s.append("Localização: " + this.getLocalizacao() + "\n");
-
-
-        s.append("--------------\n");
-        s.append(""+this.getEquipa1().getDesignacao() + " - " + this.getEquipa2().getDesignacao() + "\n");
-        s.append("--------------\n");
+        StringBuilder string = new StringBuilder();
+        string
+            .append("----Evento----\n")
+            .append("ID : " + this.getIdEvento() + "\n")
+            .append("Data : " + this.getData().toString() + " | ")
+            .append("Hora de Início : " + this.getHoraDeInicio().toString() + " | ")
+            .append("Duração : " + this.getDuracao().toString() + "\n")
+            .append("Desporto : "+ this.getDesporto().getDesignacao() + "\n")
+            .append("Localização: " + this.getLocalizacao() + "\n")
+            .append("--------------\n")
+            .append(this.getEquipa1().getDesignacao() + " - " + this.getEquipa2().getDesignacao() + "\n")
+            .append("--------------\n");
 
 
         if(this.getEstado() == 'A'){
-            s.append("Estado : Aberto \n");
-            s.append("----Resultados Possíveis----\n");
-            s.append("Vitória de " + this.getEquipa1().getDesignacao() + " - " + getResultadosPossiveis().get(0).getOdd() + "\n");
-            s.append("Empate - "  + getResultadosPossiveis().get(1).getOdd() +"\n");
-            s.append("Vitória de " + this.getEquipa2().getDesignacao() + " - " + getResultadosPossiveis().get(2).getOdd() + "\n");
+            string
+                .append("Estado : Aberto\n----Resultados Possíveis----\n")
+                .append("Vitória de " + this.getEquipa1().getDesignacao() + " - " + getResultadosPossiveis().get(0).getOdd() + "\n")
+                .append("Empate - "  + getResultadosPossiveis().get(1).getOdd() +"\n")
+                .append("Vitória de " + this.getEquipa2().getDesignacao() + " - " + getResultadosPossiveis().get(2).getOdd() + "\n");
         }
         else{
-            s.append("Estado : Fechado \n");
-            s.append(""+resultadoFinal.toString());
+            string
+                .append("Estado : Fechado \n")
+                .append(resultadoFinal.toString());
         }
 
-        s.append("---------------------\n");
-        return s.toString();
+        string.append("---------------------\n");
+        return string.toString();
     }
 
 
@@ -222,28 +221,41 @@ public class Evento implements Serializable {
      * @param utilizadores
      */
     public void notificarApostadores(Map<Integer,Utilizador> utilizadores){
+
+        Notificacao notificacao = new Notificacao();
         for(int idUtilizador : apostas.keySet()){
+
             Aposta aposta = apostas.get(idUtilizador);
-            Notificacao notificacao = new Notificacao();
             Resultado resultadoAposta = aposta.getResultado();
+
             if(resultadoAposta.equals(this.getResultadoFinal())){
-                StringBuilder s = new StringBuilder();
-                s.append("Parabéns! \n");
-                s.append("A sua aposta estava correta, ganhou " + aposta.getGanhosPossiveis() + "em ESSCoins!\n");
-                notificacao.setTexto(s.toString());
+                notificaGanho( aposta, notificacao );
             }
             else{
-                StringBuilder s = new StringBuilder();
-                s.append("Infelizmente, a sua aposta estava errada. \n");
-                s.append("Boa sorte para a próxima!\n");
-                notificacao.setTexto(s.toString());
+                notificaPerda( notificacao );
             }
 
             Apostador apostador = (Apostador) utilizadores.get(idUtilizador);
-
             apostador.getNotificacoes().add(notificacao);
         }
     }
+
+    private void notificaPerda (Notificacao notificacao) {
+        StringBuilder string = new StringBuilder();
+        string
+                .append("Infelizmente, a sua aposta estava errada.\nBoa sorte para a próxima!\n");
+        notificacao.setTexto(string.toString());
+    }
+
+    private void notificaGanho (Aposta aposta, Notificacao notificacao) {
+        StringBuilder string = new StringBuilder();
+        string
+                .append("Parabéns!\nA sua aposta estava correta, ganhou ")
+                .append(aposta.getGanhosPossiveis())
+                .append("em ESSCoins!\n");
+        notificacao.setTexto(string.toString());
+    }
+
 
     /**
      * Método que atribui os prémios aos utilizadores que venceram a Aposta
