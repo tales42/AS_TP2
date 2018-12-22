@@ -1,21 +1,17 @@
 package Business;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
-
-import Exception.*;
+import Exception.ApostadorRegistadoException;
+import Exception.PasswordIncorretaException;
+import Exception.UtilizadorInexistenteException;
 
 /**
  * Created by luismp on 11/11/2018.
  */
 public class BetESS implements Serializable {
-    private double saldoTotal;
 
     private Map<Integer,Utilizador> utilizadores;
     private Map<Integer, Desporto> desportos;
@@ -28,7 +24,6 @@ public class BetESS implements Serializable {
      * Construtor Vazio de um Objeto BetESS
      */
     public BetESS(){
-        this.saldoTotal = 0;
         this.utilizadores = new HashMap<>();
         this.desportos = new HashMap<>();
         this.equipas = new HashMap<>();

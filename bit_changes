@@ -48,3 +48,11 @@ CLASSE RESULTADO
     - 
 
     --> Passou de 42 violações para 22 violações
+
+CLASSE BETESS
+
+    - apagados imports nao utilizados
+    - apagada variável saldoTotal nao utilizada
+    -
+
+    --> Passou de 95 violações para 85 violações
