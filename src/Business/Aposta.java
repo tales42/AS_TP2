@@ -23,6 +23,12 @@ public class Aposta implements Serializable {
         this.resultado = new Resultado();
     }
 
+    public Aposta(int idAposta, double quantia, Resultado resultado){
+        this.idAposta=idAposta;
+        this.quantia=quantia;
+        this.resultado=resultado;
+    }
+
     public Aposta(Aposta aposta){
         this.setIdAposta(aposta.getIdAposta());
         this.setQuantia(aposta.getQuantia());

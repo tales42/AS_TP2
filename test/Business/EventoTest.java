@@ -1,4 +1,5 @@
-import Business.*;
+package Business;
+
 import org.junit.Test;
 
 import java.time.Duration;
@@ -9,10 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
- * Created by luismp on 17/12/2018.
+ * Created by luismp on 21/12/2018.
  */
 public class EventoTest {
     @Test
@@ -69,5 +69,6 @@ public class EventoTest {
 
 
     }
+
 
 }

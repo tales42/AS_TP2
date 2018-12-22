@@ -1,11 +1,11 @@
-import Business.BetESS;
+package Business;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 /**
- * Created by luismp on 17/12/2018.
+ * Created by luismp on 21/12/2018.
  */
 public class BetESSTest {
     @Test
@@ -25,5 +25,6 @@ public class BetESSTest {
         bet.iniciarSessao("tales","tales");
         assertTrue(bet.getAtual().getEmail().equals("tales"));
     }
+
 
 }

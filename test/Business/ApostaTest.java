@@ -1,11 +1,9 @@
-import Business.Aposta;
-import Business.Resultado;
+package Business;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
- * Created by luismp on 17/12/2018.
+ * Created by luismp on 21/12/2018.
  */
 public class ApostaTest {
     @org.junit.Test
@@ -15,5 +13,6 @@ public class ApostaTest {
         Aposta aposta = new Aposta(1,100,resultadoFinal);
         assertEquals(aposta.calcularGanhos(), 100*2.5,0.000001);
     }
+
 
 }

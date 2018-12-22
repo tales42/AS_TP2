@@ -1,4 +1,5 @@
-import Business.*;
+package Business;
+
 import org.junit.Test;
 
 import java.time.Duration;
@@ -10,7 +11,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by luismp on 17/12/2018.
+ * Created by luismp on 21/12/2018.
  */
 public class ApostadorTest {
     @Test
@@ -58,5 +59,4 @@ public class ApostadorTest {
         assertEquals(evento.getApostas().size(),1,0.00000001);
         assertTrue(evento.getApostas().containsKey(apostador.getIdUtilizador()));
     }
-
 }

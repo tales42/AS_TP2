@@ -27,7 +27,7 @@ public class Apostador extends Utilizador {
         this.notificacoes = new ArrayList<>();
     }
 
-    public Apostador(int idUtilizador, String email, String password, String nome, String cartaoAssociado, double saldo){
+    public Apostador(int idUtilizador, String email, String password, String nome){
         super(idUtilizador,email,password,nome);
         this.setCartaoAssociado(cartaoAssociado);
         this.setSaldo(saldo);
@@ -82,7 +82,7 @@ public class Apostador extends Utilizador {
         String nome = this.getNome();
         String cartaoAssociado = this.getCartaoAssociado();
         double saldo = this.getSaldo();
-        return new Apostador(idUtilizador,email,password,nome,cartaoAssociado,saldo);
+        return new Apostador(idUtilizador,email,password,nome);
     }
 
     public boolean equals(Object object){
