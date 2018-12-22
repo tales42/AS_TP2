@@ -6,82 +6,101 @@ import java.io.Serializable;
  * Created by luismp on 11/11/2018.
  */
 public class Aposta implements Serializable {
+
     private int idAposta;
     private double quantia;
     private double ganhosPossiveis;
     private Resultado resultado;
 
+    /*
+    * Construtores
+    * */
 
-    /**
-     * Construtor parametrizado de uma Aposta
-     * @param idAposta
-     * @param quantia
-     * @param resultado
-     */
-    public Aposta(int idAposta, double quantia, Resultado resultado){
-        this.idAposta = idAposta;
-        this.quantia = quantia;
-        this.resultado = resultado;
-        ganhosPossiveis = calcularGanhos();
+    public Aposta(){
+        this.idAposta = 0;
+        this.quantia = 0;
+        this.ganhosPossiveis = 0;
+        this.resultado = new Resultado();
     }
 
+    public Aposta(Aposta aposta){
+        this.setIdAposta(aposta.getIdAposta());
+        this.setQuantia(aposta.getQuantia());
+        this.setGanhosPossiveis(aposta.getGanhosPossiveis());
+        this.setResultado(aposta.getResultado());
+    }
 
-    /**
-     * Getter de idAposta
-     * @return idAposta
-     */
+    /*
+    * Getters e Setters
+    * */
+
     public int getIdAposta() {
         return this.idAposta;
     }
 
-    /**
-     * Getter da quantia em ESSCoins
-     * @return quantia
-     */
+    public void setIdAposta(int idAposta) {
+        this.idAposta = idAposta;
+    }
+
     public double getQuantia() {
         return this.quantia;
     }
 
-    /**
-     * Getter dos ganhos possíveis de uma aposta.
-     * @return ganhos possiveis
-     */
+    public void setQuantia(double quantia) {
+        this.quantia = quantia;
+    }
+
     public double getGanhosPossiveis() {
         return this.ganhosPossiveis;
     }
 
-    /**
-     * Getter do Resultado apostado
-     * @return Resultado
-     */
+    public void setGanhosPossiveis(double ganhosPossiveis) {
+        this.ganhosPossiveis = ganhosPossiveis;
+    }
+
     public Resultado getResultado() {
         return this.resultado;
     }
 
+    public void setResultado(Resultado resultado) {
+        this.resultado = resultado;
+    }
 
-    /**
-     * Método toString
-     * @return String
-     */
+    /*
+    * Clone, Equals e toString
+    * */
+
+    public Aposta clone(){
+        return new Aposta(this);
+    }
+
+    public boolean equals(Object object){
+        if(object == this) return true;
+
+        if(object==null || object.getClass() != this.getClass()) return false;
+
+        Aposta aposta = (Aposta) object;
+
+        return aposta.getIdAposta() == this.getIdAposta();
+    }
+
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Aposta----\n");
-        s.append("Quantia : " + getQuantia() + "\n");
-        s.append("Ganhos possíveis : " + getGanhosPossiveis() + "\n");
-        s.append(resultado);
-        return s.toString();
+        StringBuilder string = new StringBuilder();
+        string
+                .append("----Aposta----\nQuantia : ")
+                .append(this.getQuantia())
+                .append("\nGanhos possíveis : ")
+                .append(this.getGanhosPossiveis())
+                .append("\n")
+                .append(resultado.toString());
+        return string.toString();
     }
 
-    /**
-     * Método que calcula quais os ganhos possíveis de uma aposta
-     * @return ganhos possíveis
-     */
+    /*
+    * Métodos Business.BetESS
+    * */
+
     public double calcularGanhos(){
-        return (quantia * resultado.getOdd());
+        return quantia * resultado.getOdd();
     }
-
-    /**
-     * Refactor:
-     * Eliminados: equals(), clone(), construtor vazio e construtor de cópia e setters
-     */
 }

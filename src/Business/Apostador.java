@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import Exception.SaldoInsuficienteException;
 
-import Exception.*;
 /**
  * Created by luismp on 10/11/2018.
  */
@@ -15,118 +15,133 @@ public class Apostador extends Utilizador {
     private Map<Integer,Aposta> apostas;
     private List<Notificacao> notificacoes;
 
+    /*
+    * Construtores
+    * */
 
-    public Apostador(int idUtilizador, String email, String password, String nome){
-        super(idUtilizador,email,password,nome);
+    public Apostador(){
+        super();
         this.cartaoAssociado = "";
-        this.saldo = 0;
-        apostas = new HashMap<>();
-        notificacoes = new ArrayList<>();
+        this.saldo=0;
+        this.apostas = new HashMap<>();
+        this.notificacoes = new ArrayList<>();
     }
 
-    /**
-     * Getter do cartão associado ao Apostador
-     * @return cartão associado
-     */
+    public Apostador(int idUtilizador, String email, String password, String nome, String cartaoAssociado, double saldo){
+        super(idUtilizador,email,password,nome);
+        this.setCartaoAssociado(cartaoAssociado);
+        this.setSaldo(saldo);
+        this.setApostas(new HashMap<>());
+        this.setNotificacoes(new ArrayList<>());
+    }
+
+    /*
+    * Getters e Setters
+    * */
+
     public String getCartaoAssociado() {
-        return cartaoAssociado;
+        return this.cartaoAssociado;
     }
 
-    /**
-     * Setter do cartão associado ao Apostador
-     * @param cartaoAssociado
-     */
     public void setCartaoAssociado(String cartaoAssociado) {
         this.cartaoAssociado = cartaoAssociado;
     }
 
-    /**
-     * Getter do saldo de um Apostador
-     * @return saldo
-     */
     public double getSaldo() {
-        return saldo;
+        return this.saldo;
     }
 
-    /**
-     * Setter do saldo de um Apostador
-     * @param saldo
-     */
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
-    /**
-     * Getter de um Map de Apostas de um Apostador
-     * @return Apostas
-     */
     public Map<Integer, Aposta> getApostas() {
-        return apostas;
+        return this.apostas;
     }
 
-    /**
-     * Getter de uma Lista com as Notificações de um Apostador
-     * @return Notificações
-     */
+    public void setApostas(Map<Integer, Aposta> apostas) {
+        this.apostas = apostas;
+    }
+
     public List<Notificacao> getNotificacoes() {
         return this.notificacoes;
     }
 
-
-
-    /**
-     * Método toString
-     * @return String
-     */
-    public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Business.Apostador----\n");
-        s.append("ID : " + this.getIdUtilizador() + "\n");
-        s.append("Email : " + this.getEmail() + "\n");
-        s.append("Nome : " + this.getNome() + "\n");
-        s.append("Cartão Associado : " + this.getCartaoAssociado() + "\n");
-        s.append("Saldo : " + this.getSaldo() + "€\n");
-        s.append("------------------\n");
-        return s.toString();
+    public void setNotificacoes(List<Notificacao> notificacoes) {
+        this.notificacoes = notificacoes;
     }
 
-    /**
-     * Método que permite depositar uma quantia em ESSCoins a um Apostador
-     * @param quantia
-     */
+    /*
+    * Clone, Equals e toString
+    * */
+
+    public Apostador clone(){
+        int idUtilizador = this.getIdUtilizador();
+        String email = this.getEmail();
+        String password = this.getPassword();
+        String nome = this.getNome();
+        String cartaoAssociado = this.getCartaoAssociado();
+        double saldo = this.getSaldo();
+        return new Apostador(idUtilizador,email,password,nome,cartaoAssociado,saldo);
+    }
+
+    public boolean equals(Object object){
+        if(object == this) return true;
+
+        if(object==null || object.getClass() != this.getClass()) return false;
+
+        Apostador apostador = (Apostador) object;
+
+        return apostador.getIdUtilizador() == this.getIdUtilizador();
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder string = new StringBuilder();
+        string
+            .append("----Business.Apostador----\nID : ")
+            .append(this.getIdUtilizador())
+            .append("\nEmail : ")
+            .append(this.getEmail())
+            .append("\nNome : ")
+            .append(this.getNome())
+            .append("\nCartão Associado : ")
+            .append(this.getCartaoAssociado())
+            .append("\nSaldo : ")
+            .append(this.getSaldo())
+            .append("€\n------------------\n");
+        return string.toString();
+    }
+
+    /*
+    * Métodos Business.BetESS
+    * */
+
+    public void associarCartao(String cartaoAssociado){
+        this.setCartaoAssociado(cartaoAssociado);
+    }
+
     public void depositar(double quantia){
         double novoSaldo = this.getSaldo() + quantia;
         this.setSaldo(novoSaldo);
     }
 
-    /**
-     * Método que levanta uma quantia em ESSCoins de um Apostador.
-     * Lança uma exceção, caso este não possua saldo suficiente
-     * @param quantia
-     * @throws SaldoInsuficienteException
-     */
     public void levantar(double quantia) throws SaldoInsuficienteException {
         double novoSaldo = this.getSaldo() - quantia;
         if(novoSaldo < 0) throw new SaldoInsuficienteException(novoSaldo);
         else this.setSaldo(novoSaldo);
     }
 
-    /**
-     * Método que regista uma Aposta a um Apostador, lançando uma exceção caso este não possua saldo suficente.
-     * @param evento
-     * @param resultado
-     * @param quantia
-     * @throws SaldoInsuficienteException
-     */
     public void registarAposta( Evento evento, Resultado resultado, double quantia) throws SaldoInsuficienteException{
-        Aposta aposta = new Aposta(apostas.size()+1,quantia,resultado);
-        levantar(quantia);
-        apostas.put(aposta.getIdAposta(),aposta);
-        evento.getApostas().put(getIdUtilizador(),aposta);
+        this.levantar(quantia);
+        Aposta aposta = new Aposta();
+        int idAposta = apostas.size()+1;
+        aposta.setIdAposta(idAposta);
+        aposta.setResultado(resultado);
+        aposta.setQuantia(quantia);
+        aposta.setGanhosPossiveis(aposta.calcularGanhos());
+        apostas.put(idAposta,aposta);
+        evento.getApostas().put(this.getIdUtilizador(),aposta);
     }
 
-    /**
-     * Refactor:
-     * Eliminados: equals(), clone(), construtor de cópia e construtor vazio, setNotificacoes(), setApostas(), associarCartao()
-     */
 }
