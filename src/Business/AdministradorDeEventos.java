@@ -28,11 +28,11 @@ public class AdministradorDeEventos extends Utilizador {
     public boolean equals(Object object){
         if(object==this) return true;
 
-        if((object==null) || (object.getClass() != this.getClass())) return false;
+        if(object==null || object.getClass() != this.getClass()) return false;
 
         AdministradorDeEventos admin = (AdministradorDeEventos) object;
 
-        return (this.getIdUtilizador() == admin.getIdUtilizador());
+        return this.getIdUtilizador() == admin.getIdUtilizador();
     }
 
     @Override

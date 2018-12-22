@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by luismp on 11/11/2018.
  */
 public class Aposta implements Serializable {
+
     private int idAposta;
     private double quantia;
     private double ganhosPossiveis;
@@ -20,13 +21,6 @@ public class Aposta implements Serializable {
         this.quantia = 0;
         this.ganhosPossiveis = 0;
         this.resultado = new Resultado();
-    }
-
-    public Aposta(int idAposta, double quantia, double ganhosPossiveis, Resultado resultado){
-        this.setIdAposta(idAposta);
-        this.setQuantia(quantia);
-        this.setGanhosPossiveis(ganhosPossiveis);
-        this.setResultado(resultado);
     }
 
     public Aposta(Aposta aposta){
@@ -83,21 +77,23 @@ public class Aposta implements Serializable {
     public boolean equals(Object object){
         if(object == this) return true;
 
-        if((object==null) || (object.getClass() != this.getClass())) return false;
+        if(object==null || object.getClass() != this.getClass()) return false;
 
         Aposta aposta = (Aposta) object;
 
-        if(aposta.getIdAposta() == this.getIdAposta()) return true;
-        else return false;
+        return aposta.getIdAposta() == this.getIdAposta();
     }
 
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Aposta----\n");
-        s.append("Quantia : " + this.getQuantia() + "\n");
-        s.append("Ganhos possíveis : " + this.getGanhosPossiveis() + "\n");
-        s.append(resultado.toString());
-        return s.toString();
+        StringBuilder string = new StringBuilder();
+        string
+                .append("----Aposta----\nQuantia : ")
+                .append(this.getQuantia())
+                .append("\nGanhos possíveis : ")
+                .append(this.getGanhosPossiveis())
+                .append("\n")
+                .append(resultado.toString());
+        return string.toString();
     }
 
     /*
@@ -105,6 +101,6 @@ public class Aposta implements Serializable {
     * */
 
     public double calcularGanhos(){
-        return (quantia * resultado.getOdd());
+        return quantia * resultado.getOdd();
     }
 }
