@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import Exception.SaldoInsuficienteException;
 
-import Exception.*;
 /**
  * Created by luismp on 10/11/2018.
  */
@@ -34,18 +34,6 @@ public class Apostador extends Utilizador {
         this.setApostas(new HashMap<>());
         this.setNotificacoes(new ArrayList<>());
     }
-
-    public Apostador(Apostador a){
-        this.setIdUtilizador(a.getIdUtilizador());
-        this.setEmail(a.getEmail());
-        this.setPassword(a.getPassword());
-        this.setNome(a.getNome());
-        this.setCartaoAssociado(a.getCartaoAssociado());
-        this.setSaldo(a.getSaldo());
-        this.setApostas(a.getApostas());
-        this.setNotificacoes(a.getNotificacoes());
-    }
-
 
     /*
     * Getters e Setters
@@ -100,25 +88,29 @@ public class Apostador extends Utilizador {
     public boolean equals(Object object){
         if(object == this) return true;
 
-        if((object==null) || (object.getClass() != this.getClass())) return false;
+        if(object==null || object.getClass() != this.getClass()) return false;
 
         Apostador apostador = (Apostador) object;
 
-        if(apostador.getIdUtilizador() == this.getIdUtilizador()) return true;
-        else return false;
+        return apostador.getIdUtilizador() == this.getIdUtilizador();
     }
 
     @Override
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append("----Business.Apostador----\n");
-        s.append("ID : " + this.getIdUtilizador() + "\n");
-        s.append("Email : " + this.getEmail() + "\n");
-        s.append("Nome : " + this.getNome() + "\n");
-        s.append("Cartão Associado : " + this.getCartaoAssociado() + "\n");
-        s.append("Saldo : " + this.getSaldo() + "€\n");
-        s.append("------------------\n");
-        return s.toString();
+        StringBuilder string = new StringBuilder();
+        string
+            .append("----Business.Apostador----\nID : ")
+            .append(this.getIdUtilizador())
+            .append("\nEmail : ")
+            .append(this.getEmail())
+            .append("\nNome : ")
+            .append(this.getNome())
+            .append("\nCartão Associado : ")
+            .append(this.getCartaoAssociado())
+            .append("\nSaldo : ")
+            .append(this.getSaldo())
+            .append("€\n------------------\n");
+        return string.toString();
     }
 
     /*
