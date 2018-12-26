@@ -51,7 +51,7 @@ public class BetESS implements Serializable {
 
     /**
      * Método que regista um novo Apostador no Sistema.
-     * Lança ua exceção caso o email utilizado já esteja registado no sistema
+     * Lança uma exceção caso o email utilizado já esteja registado no sistema
      * @param email
      * @param password
      * @param nome

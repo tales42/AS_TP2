@@ -12,100 +12,151 @@ public class Aposta implements Serializable {
     private double ganhosPossiveis;
     private Resultado resultado;
 
-    /*
-    * Construtores
-    * */
 
+    /**
+     * Construtor Vazio
+     */
     public Aposta(){
-        this.idAposta = 0;
-        this.quantia = 0;
-        this.ganhosPossiveis = 0;
-        this.resultado = new Resultado();
+        idAposta = 0;
+        quantia = 0;
+        ganhosPossiveis = 0;
+        resultado = new Resultado();
     }
 
+    /**
+     * Construtor parametrizado
+     * @param idAposta
+     * @param quantia
+     * @param resultado
+     */
     public Aposta(int idAposta, double quantia, Resultado resultado){
         this.idAposta=idAposta;
         this.quantia=quantia;
         this.resultado=resultado;
     }
 
+    /**
+     * Construtor de cópia
+     * @param aposta
+     */
     public Aposta(Aposta aposta){
-        this.setIdAposta(aposta.getIdAposta());
-        this.setQuantia(aposta.getQuantia());
-        this.setGanhosPossiveis(aposta.getGanhosPossiveis());
-        this.setResultado(aposta.getResultado());
+        setIdAposta(aposta.getIdAposta());
+        setQuantia(aposta.getQuantia());
+        setGanhosPossiveis(aposta.getGanhosPossiveis());
+        setResultado(aposta.getResultado());
     }
 
-    /*
-    * Getters e Setters
-    * */
 
+    /**
+     * Getter idAposta
+     * @return idAposta
+     */
     public int getIdAposta() {
-        return this.idAposta;
+        return idAposta;
     }
 
+
+    /**
+     * Setter idAposta
+     * @param idAposta
+     */
     public void setIdAposta(int idAposta) {
         this.idAposta = idAposta;
     }
 
+    /**
+     * Getter quantia
+     * @return Quantia
+     */
     public double getQuantia() {
-        return this.quantia;
+        return quantia;
     }
 
+    /**
+     * Setter quantia
+     * @param quantia
+     */
     public void setQuantia(double quantia) {
         this.quantia = quantia;
     }
 
+    /**
+     * Getter ganhos possíveis
+     * @return Ganhos possíveis
+     */
     public double getGanhosPossiveis() {
-        return this.ganhosPossiveis;
+        return ganhosPossiveis;
     }
 
+    /**
+     * Setter ganhos possíveis
+     * @param ganhosPossiveis
+     */
     public void setGanhosPossiveis(double ganhosPossiveis) {
         this.ganhosPossiveis = ganhosPossiveis;
     }
 
+    /**
+     * Getter Resultado
+     * @return Resultado
+     */
     public Resultado getResultado() {
-        return this.resultado;
+        return resultado;
     }
 
+    /**
+     * Setter Resultado
+     * @param resultado
+     */
     public void setResultado(Resultado resultado) {
         this.resultado = resultado;
     }
 
-    /*
-    * Clone, Equals e toString
-    * */
 
+    /**
+     * Clone
+     * @return Aposta
+     */
     public Aposta clone(){
         return new Aposta(this);
     }
 
+    /**
+     * Equals
+     * @param object
+     * @return Boolean
+     */
     public boolean equals(Object object){
         if(object == this) return true;
 
-        if(object==null || object.getClass() != this.getClass()) return false;
+        if(object==null || object.getClass() != getClass()) return false;
 
         Aposta aposta = (Aposta) object;
 
-        return aposta.getIdAposta() == this.getIdAposta();
+        return aposta.getIdAposta() == getIdAposta();
     }
 
+    /**
+     * toString
+     * @return String
+     */
     public String toString(){
         StringBuilder string = new StringBuilder();
         string
                 .append("----Aposta----\nQuantia : ")
-                .append(this.getQuantia())
+                .append(getQuantia())
                 .append("\nGanhos possíveis : ")
-                .append(this.getGanhosPossiveis())
+                .append(getGanhosPossiveis())
                 .append("\n")
-                .append(resultado.toString());
+                .append(resultado);
         return string.toString();
     }
 
-    /*
-    * Métodos Business.BetESS
-    * */
 
+    /**
+     * Método que calcula os ganhos possíveis de uma aposta
+     * @return Ganhos possíveis
+     */
     public double calcularGanhos(){
         return quantia * resultado.getOdd();
     }

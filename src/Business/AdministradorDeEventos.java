@@ -5,41 +5,58 @@ package Business;
  */
 public class AdministradorDeEventos extends Utilizador {
 
-    /*
-    * Constutores
-    * */
+    /**
+     * Construtor Vazio
+     */
+    public AdministradorDeEventos(){}
 
-    public AdministradorDeEventos(){
-        super();
-    }
-
+    /**
+     * Construtor de cópia
+     * @param admin
+     */
     public AdministradorDeEventos(AdministradorDeEventos admin){
         super(admin.getIdUtilizador(),admin.getEmail(),admin.getPassword(),admin.getNome());
     }
 
+    /**
+     * Construtor parametrizado
+     * @param idUtilizador
+     * @param email
+     * @param password
+     * @param nome
+     */
     public AdministradorDeEventos(int idUtilizador, String email, String password, String nome){
         super(idUtilizador,email,password,nome);
     }
 
-    /*
-    * Clone, Equals e toString
-    * */
 
+    /**
+     * Clone
+     * @return AdministradorDeEventos
+     */
     public AdministradorDeEventos clone(){
         return new AdministradorDeEventos(this);
     }
 
+    /**
+     * Equals
+     * @param object
+     * @return Boolean
+     */
     public boolean equals(Object object){
         if(object==this) return true;
 
-        if(object==null || object.getClass() != this.getClass()) return false;
+        if(object==null || object.getClass() != getClass()) return false;
 
         AdministradorDeEventos admin = (AdministradorDeEventos) object;
 
-        return this.getIdUtilizador() == admin.getIdUtilizador();
+        return getIdUtilizador() == admin.getIdUtilizador();
     }
 
-    @Override
+    /**
+     * toString
+     * @return String
+     */
     public String toString(){
         StringBuilder string = new StringBuilder();
         string
@@ -53,9 +70,4 @@ public class AdministradorDeEventos extends Utilizador {
         return string.toString();
     }
 
-    /*
-    * Métodos Business.BetESS
-    * */
-
-    // Ligação entre admin e eventos, ou método passa para Business.BetESS ?
 }
