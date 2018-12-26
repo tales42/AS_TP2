@@ -1,7 +1,11 @@
 package GUI;
 
-import Business.*;
-import Exception.*;
+import Business.Aposta;
+import Business.Apostador;
+import Business.Evento;
+import Business.Notificacao;
+import Business.Resultado;
+import Exception.SaldoInsuficienteException;
 
 /**
  * Created by luismp on 20/12/2018.

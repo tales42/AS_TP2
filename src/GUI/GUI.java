@@ -1,6 +1,12 @@
 package GUI;
-import Business.*;
-import Exception.*;
+import Business.BetESS;
+import Business.Desporto;
+import Business.Equipa;
+import Business.Evento;
+import Business.Utilizador;
+import Exception.ApostadorRegistadoException;
+import Exception.PasswordIncorretaException;
+import Exception.UtilizadorInexistenteException;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +19,7 @@ public class GUI {
 
     private static BetESS bet;
 
-    private static final String filename = "data.bin";
+    private static final String FILENAME = "data.bin";
 
     public static void main(String[] args) {
         loadFile();
@@ -167,9 +173,9 @@ public class GUI {
      */
     protected static void loadFile() {
         try {
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream(filename));
-            bet = (BetESS) is.readObject();
-            is.close();
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream( FILENAME ));
+            bet = (BetESS) inputStream.readObject();
+            inputStream.close();
         } catch (FileNotFoundException e) {
             bet = new BetESS();
             bet.initializeSystem();
@@ -186,9 +192,9 @@ public class GUI {
      */
     protected static void saveFile() {
         try {
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filename));
-            os.writeObject(bet);
-            os.close();
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream( FILENAME ));
+            outputStream.writeObject(bet);
+            outputStream.close();
         } catch (FileNotFoundException e) {
             System.out.println("Ocorreu um erro a guardar o ficheiro.");
         } catch (IOException e) {
@@ -199,12 +205,12 @@ public class GUI {
 
     /**
      * Método que verifica que uma dada String é um inteiro
-     * @param s
+     * @param string
      * @return Boolean
      */
-    protected static boolean isInteger(String s) {
+    protected static boolean isInteger(String string) {
         try {
-            Integer.parseInt(s);
+            Integer.parseInt(string);
         } catch (NumberFormatException e) {
             return false;
         } catch (NullPointerException e) {
@@ -216,12 +222,12 @@ public class GUI {
 
     /**
      * Método que verifica se uma dada String é um double
-     * @param s
+     * @param string
      * @return Boolean
      */
-    protected static boolean isDouble(String s) {
+    protected static boolean isDouble(String string) {
         try {
-            Double.parseDouble(s);
+            Double.parseDouble(string);
         } catch (NumberFormatException e) {
             return false;
         } catch (NullPointerException e) {

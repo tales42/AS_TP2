@@ -45,7 +45,8 @@ CLASSE NOTIFICAÇÃO
 
 CLASSE RESULTADO
 
-    - 
+    - alterado método equals para não incluir if then else desnecessário - mais performance
+    - alterado to string para melhorar a performance
 
     --> Passou de 42 violações para 22 violações
 
@@ -53,6 +54,20 @@ CLASSE BETESS
 
     - apagados imports nao utilizados
     - apagada variável saldoTotal nao utilizada
-    -
 
     --> Passou de 95 violações para 85 violações
+
+CLASSE GUI
+
+    - apagados imports nao utilizados
+
+    --> Passou de 77 violações para 70 violações
+
+CLASSE GUIAPOSTADOR
+
+    - apagados imports nao utilizados
+
+    --> Passou de 112 violações para 110 violações
+
+
+
