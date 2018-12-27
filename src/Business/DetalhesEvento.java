@@ -114,4 +114,20 @@ public class DetalhesEvento {
     }
 
 
+    /**
+     * Método toString
+     * @return String
+     */
+    public String toString(){
+        StringBuilder string = new StringBuilder();
+        string.append("Data : " + getData() + " | ")
+                .append("Hora de Início : " + getHoraDeInicio() + " | ")
+                .append("Duração : " + getDuracao() + "\n")
+                .append("Desporto : "+ getDesporto().getDesignacao() + "\n")
+                .append("Localização: " + getLocalizacao() + "\n")
+                .append("--------------\n")
+                .append(getEquipa1().getDesignacao() + " - " + getEquipa2().getDesignacao() + "\n");
+        return string.toString();
+    }
+
 }

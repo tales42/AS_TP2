@@ -102,21 +102,9 @@ public class Evento implements Serializable {
         StringBuilder string = new StringBuilder();
         string
             .append("----Evento----\n")
-            .append("ID : " + this.getIdEvento() + "\n")
-            .append("Data : " + detalhes.getData().toString() + " | ")
-            .append("Hora de Início : " + detalhes.getHoraDeInicio().toString() + " | ")
-            .append("Duração : " + detalhes.getDuracao().toString() + "\n")
-            .append("Desporto : "+ detalhes.getDesporto().getDesignacao() + "\n")
-            .append("Localização: " + detalhes.getLocalizacao() + "\n")
-            .append("--------------\n")
-            .append(detalhes.getEquipa1().getDesignacao() + " - " + detalhes.getEquipa2().getDesignacao() + "\n")
+            .append("ID : " + getIdEvento() + "\n")
+            .append(detalhes)
             .append("--------------\n");
-        estadoToString(string);
-        string.append("---------------------\n");
-        return string.toString();
-    }
-
-    private void estadoToString(StringBuilder string) {
         if(detalhes.getEstado() == 'A'){
             string
                 .append("Estado : Aberto\n----Resultados Possíveis----\n")
@@ -127,9 +115,13 @@ public class Evento implements Serializable {
         else{
             string
                 .append("Estado : Fechado \n")
-                .append(resultadoFinal.toString());
+                .append(resultadoFinal);
         }
+        string.append("---------------------\n");
+        return string.toString();
     }
+
+
 
 
     /**
