@@ -1,5 +1,6 @@
 package Business;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,7 +8,7 @@ import java.time.LocalTime;
 /**
  * Created by luismp on 26/12/2018.
  */
-public class DetalhesEvento {
+public class DetalhesEvento implements Serializable {
     private LocalDate data;
     private String localizacao;
     private LocalTime horaDeInicio;
@@ -113,6 +114,20 @@ public class DetalhesEvento {
         return desporto;
     }
 
+    public String getDesignacaoEquipa(int equipa){
+        String designacao = "";
+        if(equipa == 1){
+            designacao = equipa1.getDesignacao();
+        }
+        if(equipa == 2){
+            designacao = equipa2.getDesignacao();
+        }
+        return designacao;
+    }
+
+    public boolean isAberto(){
+        return estado == 'A';
+    }
 
     /**
      * Método toString

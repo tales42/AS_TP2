@@ -1,9 +1,6 @@
 package Business;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -82,10 +79,10 @@ public class Evento implements Serializable {
     public String getDesignacaoEquipa(int equipa){
         String designacao = "";
         if(equipa == 1){
-            designacao = detalhes.getEquipa1().getDesignacao();
+            designacao = detalhes.getDesignacaoEquipa(1);
         }
         if(equipa == 2){
-            designacao = detalhes.getEquipa2().getDesignacao();
+            designacao = detalhes.getDesignacaoEquipa(2);
         }
         return designacao;
     }
@@ -104,24 +101,43 @@ public class Evento implements Serializable {
             .append("----Evento----\n")
             .append("ID : " + getIdEvento() + "\n")
             .append(detalhes)
-            .append("--------------\n");
-        if(detalhes.getEstado() == 'A'){
+            .append("--------------\n")
+            .append(builderEstado())
+            .append("---------------------\n");
+        return string.toString();
+    }
+
+    private String builderEstado() {
+        StringBuilder string = new StringBuilder();
+        if(detalhes.isAberto()){
             string
                 .append("Estado : Aberto\n----Resultados Possíveis----\n")
-                .append("Vitória de " + detalhes.getEquipa1().getDesignacao() + " - " + getResultadosPossiveis().get(0).getOdd() + "\n")
-                .append("Empate - "  + getResultadosPossiveis().get(1).getOdd() +"\n")
-                .append("Vitória de " + detalhes.getEquipa2().getDesignacao() + " - " + getResultadosPossiveis().get(2).getOdd() + "\n");
+                .append("Vitória de " + detalhes.getDesignacaoEquipa(1) + " - " + getOdd(0) + "\n")
+                .append("Empate - "  + getOdd(1) +"\n")
+                .append("Vitória de " + detalhes.getDesignacaoEquipa(2) + " - " + getOdd(2) + "\n");
         }
         else{
             string
                 .append("Estado : Fechado \n")
                 .append(resultadoFinal);
         }
-        string.append("---------------------\n");
         return string.toString();
     }
 
 
+    public double getOdd(int resultado){
+        double odd = 0;
+        if(resultado == 0){
+            odd = getOdd(0);
+        }
+        if(resultado == 1){
+            odd = getOdd(1);
+        }
+        if(resultado == 2){
+            odd = getOdd(2);
+        }
+        return odd;
+    }
 
 
     /**
@@ -129,7 +145,7 @@ public class Evento implements Serializable {
      * @param bet
      */
     public void alterarEstado(BetESS bet){
-        if(detalhes.getEstado()=='A'){
+        if(detalhes.isAberto()){
             detalhes.setEstado('F');
             Random random = new Random();
             int result = random.nextInt(2);
@@ -159,7 +175,7 @@ public class Evento implements Serializable {
             }
 
             Apostador apostador = (Apostador) utilizadores.get(idUtilizador);
-            apostador.getNotificacoes().add(notificacao);
+            apostador.addNotificacao(notificacao);
         }
     }
 

@@ -197,4 +197,8 @@ public class Apostador extends Utilizador {
         evento.getApostas().put(getIdUtilizador(),aposta);
     }
 
+    public void addNotificacao(Notificacao notificacao){
+        notificacoes.add(notificacao);
+    }
+
 }
