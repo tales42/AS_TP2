@@ -69,7 +69,7 @@ public class GUIApostador extends GUIMainPage{
         Evento evento = getEvento(idEvento);
         printDetalhesEvento(evento);
         int idResultado = escolherResultado();
-        Resultado resultado = evento.getResultadosPossiveis().get(idResultado);
+        Resultado resultado = evento.getResultado(idResultado);
         double quantia;
         quantia = escolherQuantia();
         tryRegistarAposta(atual, evento, resultado, quantia);
@@ -83,9 +83,9 @@ public class GUIApostador extends GUIMainPage{
     private static void printDetalhesEvento(Evento evento) {
         System.out.println(evento);
         System.out.println("Indique qual o resultado que pretende apostar:\n" +
-                "0 - Vitória de " + evento.getEquipa1().getDesignacao() + "- odd : " + evento.getResultadosPossiveis().get(0).getOdd() + "\n" +
-                "1 - Empate - odd : " + evento.getResultadosPossiveis().get(1).getOdd() + "\n" +
-                "2 - Vitória de " + evento.getEquipa2().getDesignacao() + "- odd : " + evento.getResultadosPossiveis().get(2).getOdd() + "\n");
+                "0 - Vitória de " + evento.getDesignacaoEquipa(1) + "- odd : " + evento.getResultado(0).getOdd() + "\n" +
+                "1 - Empate - odd : " + evento.getResultado(1).getOdd() + "\n" +
+                "2 - Vitória de " + evento.getDesignacaoEquipa(2) + "- odd : " + evento.getResultado(2).getOdd() + "\n");
     }
 
     /**

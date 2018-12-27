@@ -51,7 +51,7 @@ public class GUI {
     }
 
     /**
-     * Método que lê uma linha do teclado (System.in).
+     * Método que lê uma linha do teclado (System.in)
      * @return Linha lida do teclado
      */
     protected static String readLine(){
@@ -99,7 +99,7 @@ public class GUI {
      * @return Evento
      */
     protected static Evento getEvento(int idEvento){
-        return bet.getEventos().get(idEvento);
+        return bet.getEvento(idEvento);
     }
 
     /**
@@ -108,7 +108,7 @@ public class GUI {
      * @return Bool
      */
     protected static boolean isEventoAberto(int idEvento){
-        return bet.getEventosAbertos().keySet().contains(idEvento);
+        return bet.isEventoAberto(idEvento);
     }
 
     /**
@@ -138,8 +138,8 @@ public class GUI {
      * @param idEquipa
      * @return Equipa
      */
-    protected static Equipa getEquipa(int idEquipa){
-        return bet.getEquipas().get(idEquipa);
+    protected static String getDesignacaoEquipa(int idEquipa){
+        return bet.getDesignacaoEquipa(idEquipa);
     }
 
     /**
@@ -165,7 +165,7 @@ public class GUI {
         System.out.println("Selecione qual o evento que quer fechar");
         Scanner scanner = new Scanner(System.in);
         int idEvento = scanner.nextInt();
-        bet.getEventos().get(idEvento).alterarEstado(bet);
+        bet.alterarEstado(idEvento);
     }
 
     /**
@@ -216,7 +216,6 @@ public class GUI {
         } catch (NullPointerException e) {
             return false;
         }
-        // only got here if we didn't return false
         return true;
     }
 
@@ -233,40 +232,7 @@ public class GUI {
         } catch (NullPointerException e) {
             return false;
         }
-        // only got here if we didn't return false
         return true;
     }
-
-
-    /**
-     * Bad Smells:
-     * -> Métodos Longos -> registarEventoForm(), novaApostaForm(), gerirSaldoHandler(), loggedInHandler(), loggedInScene(), registarForm(), showLoginForm()
-     * -> Classe grande -> 25 métodos
-     * -> Código repetido -> "prima 0 para sair" -> extract method
-     * -> Message Chains -> cadeias de varíaveis
-     */
-
-
-    /**
-     * REfactor:
-     *          loggedInScene -> Extract MEthod x2
-     *          mainPageForm -> Extract Method
-     *          Substituir todos os scanners pela função readline + isInteger ou isDouble
-     *          associarCartao -> Extract Method
-     *          showLoginForm -> Extract MEthod
-     *          registerForm -> Extract Method
-     *          loggedInHandler -> Extract Method x2
-     *          registarEVentoForm -> Extract Method x? -> Fazer nova classe
-     *          novaApostaForm -> Extract Method x? -> Fazer nova classe
-     *          handleEvents -> apagado
-     *          showFormAposta -> apagado (estes ultimos dois estavam ligados um ao outro, mas não eram usados em qualquer outro lado)
-     *
-     *
-     *          Classe GUI feita como superclasse de GUIMainPage e GUISaldo
-     *                  Clase GUIMainPage feita como superclasse de GUIApostador e GUIEvento
-     *
-     *                 Métodos divididos de acordo com a sua função
-     *                 Métodos que são usados por diversas classes, feitos protected
-     */
 
 }

@@ -187,10 +187,31 @@ public class BetESS implements Serializable {
         resultados.add(vitoriaEquipa2);
 
         Duration duracao = Duration.ofMinutes(90);
-        Evento evento = new Evento(eventos.size()+1, date, localizacao, horaComeco, duracao, eq1, eq2, desp, resultados);
+        DetalhesEvento detalhesEvento = new DetalhesEvento(date,horaComeco,duracao,localizacao,eq1,eq2,desp);
+        Evento evento = new Evento(eventos.size()+1, resultados, detalhesEvento);
 
         eventos.put(evento.getIdEvento(),evento);
 
+    }
+
+    public boolean isEventoAberto(int idEvento){
+        return eventos.keySet().contains(idEvento);
+    }
+
+    public Equipa getEquipa(int idEquipa){
+        return equipas.get(idEquipa);
+    }
+
+    public void alterarEstado(int idEvento){
+        eventos.get(idEvento).alterarEstado(this);
+    }
+
+    public Evento getEvento(int idEvento){
+        return eventos.get(idEvento);
+    }
+
+    public String getDesignacaoEquipa(int idEquipa){
+        return equipas.get(idEquipa).getDesignacao();
     }
 
     /**

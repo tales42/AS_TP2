@@ -11,43 +11,22 @@ import java.util.*;
  */
 public class Evento implements Serializable {
     private int idEvento;
-    private LocalDate data;
-    private String localizacao;
-    private LocalTime horaDeInicio;
-    private Duration duracao;
-    private char estado;
-    private Equipa equipa1;
-    private Equipa equipa2;
-    private Desporto desporto;
     private Resultado resultadoFinal;
     private List<Resultado> resultadosPossiveis;
     private Map<Integer,Aposta> apostas;
+    private DetalhesEvento detalhes;
 
     /**
      * Construtor parametrizado de um Evento
      * @param idEvento
-     * @param data
-     * @param localizacao
-     * @param horaDeInicio
-     * @param duracao
-     * @param equipa1
-     * @param equipa2
-     * @param desporto
      * @param resultadosPossiveis
      */
-    public Evento(int idEvento, LocalDate data, String localizacao, LocalTime horaDeInicio, Duration duracao , Equipa equipa1, Equipa equipa2, Desporto desporto, List<Resultado> resultadosPossiveis){
+    public Evento(int idEvento, List<Resultado> resultadosPossiveis, DetalhesEvento detalhes){
         this.idEvento = idEvento;
-        this.data = data;
-        this.localizacao = localizacao;
-        this.horaDeInicio = horaDeInicio;
-        this.duracao = duracao;
-        this.equipa1 = equipa1;
-        this.equipa2 = equipa2;
-        this.desporto = desporto;
         this.resultadosPossiveis = resultadosPossiveis;
-        this.estado = 'A';
-        this.resultadoFinal = new Resultado();
-        this.apostas = new HashMap<>();
+        resultadoFinal = new Resultado();
+        apostas = new HashMap<>();
+        this.detalhes = detalhes;
     }
 
 
@@ -59,78 +38,14 @@ public class Evento implements Serializable {
         return idEvento;
     }
 
-    /**
-     * Getter da Data  do Evento
-     * @return Data
-     */
-    public LocalDate getData() {
-        return data;
-    }
-
-    /**
-     * Getter da Localização  do Evento
-     * @return Localização
-     */
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    /**
-     * Getter da Hora de Início  do Evento
-     * @return Hora de Início
-     */
-    public LocalTime getHoraDeInicio() {
-        return horaDeInicio;
-    }
-
-    /**
-     * Getter da Duração  do Evento
-     * @return Duração
-     */
-    public Duration getDuracao() {
-        return duracao;
-    }
 
     /**
      * Getter do Estado do Evento
      * @return Estado
      */
-    public char getEstado() {
-        return estado;
+    public char getEstado(){
+        return detalhes.getEstado();
     }
-
-    /**
-     * Setter do Estado do Evento
-     * @param estado
-     */
-    public void setEstado(char estado) {
-        this.estado = estado;
-    }
-
-    /**
-     * Getter da Equipa 1  do Evento
-     * @return Equipa 1
-     */
-    public Equipa getEquipa1() {
-        return equipa1;
-    }
-
-    /**
-     * Getter da Equipa 2  do Evento
-     * @return Equipa 2
-     */
-    public Equipa getEquipa2() {
-        return equipa2;
-    }
-
-    /**
-     * Getter do Desporto do Evento
-     * @return Desporto
-     */
-    public Desporto getDesporto() {
-        return desporto;
-    }
-
 
     /**
      * Setter do Resultado Final de um Evento
@@ -164,6 +79,21 @@ public class Evento implements Serializable {
         return apostas;
     }
 
+    public String getDesignacaoEquipa(int equipa){
+        String designacao = "";
+        if(equipa == 1){
+            designacao = detalhes.getEquipa1().getDesignacao();
+        }
+        if(equipa == 2){
+            designacao = detalhes.getEquipa2().getDesignacao();
+        }
+        return designacao;
+    }
+
+    public Resultado getResultado(int resultado){
+        return resultadosPossiveis.get(resultado);
+    }
+
     /**
      * toString
      * @return String
@@ -173,31 +103,32 @@ public class Evento implements Serializable {
         string
             .append("----Evento----\n")
             .append("ID : " + this.getIdEvento() + "\n")
-            .append("Data : " + this.getData().toString() + " | ")
-            .append("Hora de Início : " + this.getHoraDeInicio().toString() + " | ")
-            .append("Duração : " + this.getDuracao().toString() + "\n")
-            .append("Desporto : "+ this.getDesporto().getDesignacao() + "\n")
-            .append("Localização: " + this.getLocalizacao() + "\n")
+            .append("Data : " + detalhes.getData().toString() + " | ")
+            .append("Hora de Início : " + detalhes.getHoraDeInicio().toString() + " | ")
+            .append("Duração : " + detalhes.getDuracao().toString() + "\n")
+            .append("Desporto : "+ detalhes.getDesporto().getDesignacao() + "\n")
+            .append("Localização: " + detalhes.getLocalizacao() + "\n")
             .append("--------------\n")
-            .append(this.getEquipa1().getDesignacao() + " - " + this.getEquipa2().getDesignacao() + "\n")
+            .append(detalhes.getEquipa1().getDesignacao() + " - " + detalhes.getEquipa2().getDesignacao() + "\n")
             .append("--------------\n");
+        estadoToString(string);
+        string.append("---------------------\n");
+        return string.toString();
+    }
 
-
-        if(this.getEstado() == 'A'){
+    private void estadoToString(StringBuilder string) {
+        if(detalhes.getEstado() == 'A'){
             string
                 .append("Estado : Aberto\n----Resultados Possíveis----\n")
-                .append("Vitória de " + this.getEquipa1().getDesignacao() + " - " + getResultadosPossiveis().get(0).getOdd() + "\n")
+                .append("Vitória de " + detalhes.getEquipa1().getDesignacao() + " - " + getResultadosPossiveis().get(0).getOdd() + "\n")
                 .append("Empate - "  + getResultadosPossiveis().get(1).getOdd() +"\n")
-                .append("Vitória de " + this.getEquipa2().getDesignacao() + " - " + getResultadosPossiveis().get(2).getOdd() + "\n");
+                .append("Vitória de " + detalhes.getEquipa2().getDesignacao() + " - " + getResultadosPossiveis().get(2).getOdd() + "\n");
         }
         else{
             string
                 .append("Estado : Fechado \n")
                 .append(resultadoFinal.toString());
         }
-
-        string.append("---------------------\n");
-        return string.toString();
     }
 
 
@@ -206,8 +137,8 @@ public class Evento implements Serializable {
      * @param bet
      */
     public void alterarEstado(BetESS bet){
-        if(getEstado()=='A'){
-            setEstado('F');
+        if(detalhes.getEstado()=='A'){
+            detalhes.setEstado('F');
             Random random = new Random();
             int result = random.nextInt(2);
             setResultadoFinal(resultadosPossiveis.get(result));

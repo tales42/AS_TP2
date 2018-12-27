@@ -60,10 +60,33 @@
 
 => GUI.java
 
-    Faltam comentários no código
-    Classe grande
-    Código repetido
-    Métodos muito grandes (registarEventoForm(), novaApostaForm(),
-                        gerirSaldoHandler(), loggedInHandler(), loggedInScene(),
-                        registarForm(), showLoginForm())
-    Message Chains
+    /**
+     * Bad Smells:
+     * -> Métodos Longos -> registarEventoForm(), novaApostaForm(), gerirSaldoHandler(), loggedInHandler(), loggedInScene(), registarForm(), showLoginForm()
+     * -> Classe grande -> 25 métodos
+     * -> Código repetido -> "prima 0 para sair" -> extract method
+     * -> Message Chains -> cadeias de varíaveis
+     */
+
+
+    /**
+     * REfactor:
+     *          loggedInScene -> Extract MEthod x2
+     *          mainPageForm -> Extract Method
+     *          Substituir todos os scanners pela função readline + isInteger ou isDouble
+     *          associarCartao -> Extract Method
+     *          showLoginForm -> Extract MEthod
+     *          registerForm -> Extract Method
+     *          loggedInHandler -> Extract Method x2
+     *          registarEVentoForm -> Extract Method x? -> Fazer nova classe
+     *          novaApostaForm -> Extract Method x? -> Fazer nova classe
+     *          handleEvents -> apagado
+     *          showFormAposta -> apagado (estes ultimos dois estavam ligados um ao outro, mas não eram usados em qualquer outro lado)
+     *
+     *
+     *          Classe GUI feita como superclasse de GUIMainPage e GUISaldo
+     *                  Clase GUIMainPage feita como superclasse de GUIApostador e GUIEvento
+     *
+     *                 Métodos divididos de acordo com a sua função
+     *                 Métodos que são usados por diversas classes, feitos protected
+     */

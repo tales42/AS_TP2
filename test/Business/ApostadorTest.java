@@ -51,7 +51,10 @@ public class ApostadorTest {
         resultadoList.add(empate);
         resultadoList.add(vitoria2);
 
-        Evento evento = new Evento(1, LocalDate.now(), "estádio", LocalTime.now(), Duration.ofMinutes(90), new Equipa(1,"SLB"), new Equipa(2,"FCP"), new Desporto(1,"Futebol"),resultadoList);
+        DetalhesEvento detalhesEvento = new DetalhesEvento(LocalDate.now(), LocalTime.now(), Duration.ofMinutes(90),
+                "estádio", new Equipa(1,"SLB"),
+                new Equipa(2,"FCP"), new Desporto(1,"Futebol"));
+        Evento evento = new Evento(1,resultadoList, detalhesEvento);
 
         apostador.registarAposta(evento,empate,100);
         assertEquals(apostador.getApostas().size(),1,0.0000001);

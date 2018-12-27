@@ -107,7 +107,8 @@ public class GUIEvento extends GUIMainPage {
      */
     private static String getLocalizacao() {
         System.out.println("Indique a localização do evento");
-        return readLine();
+        String localizacao = readLine();
+        return localizacao;
     }
 
     /**
@@ -116,7 +117,7 @@ public class GUIEvento extends GUIMainPage {
      * @return Odd
      */
     private static double getOddVitoriaEquipa2(int idEquipa2) {
-        System.out.println("Indique as odds de vitória da equipa 2 : ( " + getEquipa(idEquipa2).getDesignacao() + ")");
+        System.out.println("Indique as odds de vitória da equipa 2 : ( " + getDesignacaoEquipa(idEquipa2) + ")");
         String odd = readLine();
         return Double.parseDouble(odd);
     }
@@ -137,7 +138,7 @@ public class GUIEvento extends GUIMainPage {
      * @return Odd
      */
     private static double getOddVitoriaEquipa1(int idEquipa1) {
-        System.out.println("Indique as odds de vitória da equipa 1 : ( " + getEquipa(idEquipa1).getDesignacao() + ")");
+        System.out.println("Indique as odds de vitória da equipa 1 : ( " + getDesignacaoEquipa(idEquipa1) + ")");
         String odd = readLine();
         return Double.parseDouble(odd);
     }
