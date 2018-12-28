@@ -10,7 +10,7 @@ import Exception.SaldoInsuficienteException;
 /**
  * Created by luismp on 20/12/2018.
  */
-public class GUIApostador extends GUIMainPage{
+public class GUIApostador extends GUI{
 
     /**
      * Método que recebe e trata os inputs da página após o login de um apostador
@@ -21,35 +21,35 @@ public class GUIApostador extends GUIMainPage{
         if (opcao.equals("1")) {
             showNotificacoes();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("2")) {
             GUISaldo.gerirSaldoScene();
             GUISaldo.gerirSaldoHandler();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("3")) {
             showResultados();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("4")) {
             showEvents();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("5")) {
             showApostas();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("6")) {
             novaApostaForm();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("0")) {
             terminarSessao();
             return false;
         } else {
             System.out.println("Input não reconhecido");
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         }
         return true;
     }

@@ -1,6 +1,5 @@
 package GUI;
 
-import Business.BetESS;
 import Business.Desporto;
 import Business.Equipa;
 
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * Created by luismp on 20/12/2018.
  */
-public class GUIEvento extends GUIMainPage {
+public class GUIEvento extends GUI{
 
 
     /**
@@ -26,21 +25,21 @@ public class GUIEvento extends GUIMainPage {
         if (opcao.equals("1")) {
             registarEventoForm();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("2")) {
             showEvents();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("3")) {
             closeEvent();
             confirmarContinuar();
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         } else if (opcao.equals("0")) {
             terminarSessao();
             return false;
         } else {
             System.out.println("Input não reconhecido. ");
-            loggedInScene();
+            GUIMainPage.loggedInScene();
         }
         return true;
     }
