@@ -36,8 +36,4 @@ public class Equipa implements Serializable {
         return this.designacao;
     }
 
-    /**
-     * Refactor:
-     * Eliminados: clone(), equals() e toString(), construtor vazio e de cópia
-     */
 }

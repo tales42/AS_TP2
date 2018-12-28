@@ -72,9 +72,4 @@ public class Resultado implements Serializable {
             .append("\n-----------------\n");
         return string.toString();
     }
-
-    /**
-     * Refactor:
-     * Eliminados: clone() e toString(), construtor de cópia
-     */
 }

@@ -42,6 +42,17 @@ public class Notificacao implements Serializable {
         this.texto = texto;
     }
 
+
+    /**
+     * Método clone()
+     * @return
+     */
+    public Notificacao clone(){
+        Notificacao notificacao = new Notificacao();
+        notificacao.setTexto(texto);
+        return notificacao;
+    }
+
     /**
      * toString
      * @return String
@@ -56,9 +67,4 @@ public class Notificacao implements Serializable {
                 .append("\n-------------------\n");
         return string.toString();
     }
-
-    /**
-     * Refactor:
-     * Eliminados: clone(), equals(), construtor parametrizado e de cópia e setData
-     */
 }

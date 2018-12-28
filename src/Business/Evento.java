@@ -87,6 +87,11 @@ public class Evento implements Serializable {
         return designacao;
     }
 
+    /**
+     * Método que devolve um dos resultados possíveis de acordo com o índice passado como parâmetro
+     * @param resultado
+     * @return Resultado
+     */
     public Resultado getResultado(int resultado){
         return resultadosPossiveis.get(resultado);
     }
@@ -107,6 +112,10 @@ public class Evento implements Serializable {
         return string.toString();
     }
 
+    /**
+     * Método que constrói a String relativa ao estado de um Evento
+     * @return String
+     */
     private String builderEstado() {
         StringBuilder string = new StringBuilder();
         if(detalhes.isAberto()){
@@ -125,16 +134,21 @@ public class Evento implements Serializable {
     }
 
 
+    /**
+     * Método que devolve a odd de um dos resultados possíveis de acordo com o índice passado como parâmetro
+     * @param resultado
+     * @return Odd
+     */
     public double getOdd(int resultado){
         double odd = 0;
         if(resultado == 0){
-            odd = getOdd(0);
+            odd = resultadosPossiveis.get(0).getOdd();
         }
         if(resultado == 1){
-            odd = getOdd(1);
+            odd = resultadosPossiveis.get(1).getOdd();
         }
         if(resultado == 2){
-            odd = getOdd(2);
+            odd = resultadosPossiveis.get(2).getOdd();
         }
         return odd;
     }
@@ -175,10 +189,14 @@ public class Evento implements Serializable {
             }
 
             Apostador apostador = (Apostador) utilizadores.get(idUtilizador);
-            apostador.addNotificacao(notificacao);
+            apostador.addNotificacao(notificacao.clone());
         }
     }
 
+    /**
+     * Método que constrói a Notificação relativa à perda de uma aposta
+     * @param notificacao
+     */
     private void notificaPerda (Notificacao notificacao) {
         StringBuilder string = new StringBuilder();
         string
@@ -186,6 +204,11 @@ public class Evento implements Serializable {
         notificacao.setTexto(string.toString());
     }
 
+    /**
+     * Método que constrói a Notificação relativa ao ganho de uma aposta
+     * @param aposta
+     * @param notificacao
+     */
     private void notificaGanho (Aposta aposta, Notificacao notificacao) {
         StringBuilder string = new StringBuilder();
         string
@@ -211,9 +234,5 @@ public class Evento implements Serializable {
             }
         }
     }
-
-    /**
-     * Eliminado clone() e toString(), construtores vazio e de cópia, e quase todos os setters à exceção do setEstado
-     */
 
 }

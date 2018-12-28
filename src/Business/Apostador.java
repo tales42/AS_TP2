@@ -197,6 +197,10 @@ public class Apostador extends Utilizador {
         evento.getApostas().put(getIdUtilizador(),aposta);
     }
 
+    /**
+     * Método que adiciona uma nova notificação no Apostador
+     * @param notificacao
+     */
     public void addNotificacao(Notificacao notificacao){
         notificacoes.add(notificacao);
     }

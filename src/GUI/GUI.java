@@ -71,7 +71,7 @@ public class GUI {
      * Método que mostra os eventos do sistema
      */
     protected static void showEvents() {
-        Map<Integer, Evento> eventos = getEventos();
+        Map<Integer, Evento> eventos = getEventosAbertos();
         System.out.println("---- Eventos ----");
         for (Evento e : eventos.values()) {
             System.out.println(e);
@@ -109,6 +109,14 @@ public class GUI {
      */
     protected static boolean isEventoAberto(int idEvento){
         return bet.isEventoAberto(idEvento);
+    }
+
+    /**
+     * Método que reotnra um Map com os eventos abertos registados no sistema
+     * @return Map de Evento
+     */
+    protected static Map<Integer,Evento> getEventosAbertos(){
+        return bet.getEventosAbertos();
     }
 
     /**

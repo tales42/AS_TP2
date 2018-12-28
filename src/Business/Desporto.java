@@ -37,8 +37,4 @@ public class Desporto implements Serializable {
         return designacao;
     }
 
-    /**
-     * Refactor:
-     * Eliminados: clone(), equals() e toString(), construtor vazio e de cópia
-     */
 }

@@ -194,22 +194,37 @@ public class BetESS implements Serializable {
 
     }
 
+    /**
+     * Método que verifica se um evento está aberto.
+     * @param idEvento
+     * @return Boolean
+     */
     public boolean isEventoAberto(int idEvento){
         return eventos.keySet().contains(idEvento);
     }
 
-    public Equipa getEquipa(int idEquipa){
-        return equipas.get(idEquipa);
-    }
-
+    /**
+     * Método que altera o estado de um evento
+     * @param idEvento
+     */
     public void alterarEstado(int idEvento){
         eventos.get(idEvento).alterarEstado(this);
     }
 
+    /**
+     * Método que retorna o evento associado a um identificador
+     * @param idEvento
+     * @return Evento
+     */
     public Evento getEvento(int idEvento){
         return eventos.get(idEvento);
     }
 
+    /**
+     * Método que retorna a designação da equipa associada a um identificador
+     * @param idEquipa
+     * @return Designação
+     */
     public String getDesignacaoEquipa(int idEquipa){
         return equipas.get(idEquipa).getDesignacao();
     }
@@ -229,12 +244,4 @@ public class BetESS implements Serializable {
         Equipa fcp = new Equipa(2, "Futebol Clube do Porto");
         equipas.put(fcp.getIdEquipa(),fcp);
     }
-
-    /**
-     * Refactor: eliminado getResultado()
-     * Trocados construtores para ocuparem menos linhas
-     *
-     * todo: Generalidade Especulativa, saldoTOtal não é usado
-     */
-
 }
